@@ -1,0 +1,64 @@
+import { unrealizedGain } from "../core/portfolio";
+import type {
+  AnnualBuyTaxResult,
+  AnnualPortfolioDragResult,
+  CountryRules,
+  MonthlyExtras,
+  OneTimeCosts,
+  RealizationCGT,
+} from "../core/rules";
+import type { CountryInputs, ITInputs } from "../core/types";
+import { itDefaults } from "./defaults";
+
+export const itRules: CountryRules = {
+  defaults: () => itDefaults(),
+  effectiveRate: (input) => input.mortgageRate,
+  oneTimeCosts: (input): OneTimeCosts => {
+    const i = input as ITInputs;
+    const registro = i.registrationTaxRate * i.cadastralValue;
+    const ipoCat = i.fixedIpotecariaCatastale;
+    const notary = i.notaryPct * i.homePrice;
+    const agentNet = i.agentPct * i.homePrice;
+    const agentIva = agentNet * i.agentIvaPct;
+    const agent = agentNet + agentIva;
+    const total = registro + ipoCat + notary + agent;
+    return {
+      closingTotal: total,
+      breakdown: { registro, ipoCat, notary, agent },
+    };
+  },
+  monthlyExtras: (input): MonthlyExtras => {
+    // condominio is captured by hoaMonthly in the universal block; nothing extra here.
+    void input;
+    return { countryAdj: 0 };
+  },
+  annualBuyTax: (input, ctx): AnnualBuyTaxResult => {
+    const i = input as ITInputs;
+    // Mutuo deduction: 19% × min(interestPaidYr, €4,000) credit (prima casa).
+    const credit = i.mutuoDeductionRate * Math.min(ctx.interestPaidYear, i.mutuoInterestCap);
+    return {
+      netCashEffect: -credit,
+      breakdown: { credit },
+    };
+  },
+  annualPortfolioDrag: (input, buyBucket, rentBucket): AnnualPortfolioDragResult => {
+    const i = input as ITInputs;
+    // Bollo 0.2% on portfolio market value.
+    const buyVal = buyBucket.equityValue + buyBucket.bondValue;
+    const rentVal = rentBucket.equityValue + rentBucket.bondValue;
+    return {
+      buyDrag: buyVal * i.bolloRate,
+      rentDrag: rentVal * i.bolloRate,
+      breakdown: {},
+    };
+  },
+  unrealizedCGT: (input, buyBucket, rentBucket): RealizationCGT => {
+    const i = input as ITInputs;
+    const buyG = unrealizedGain(buyBucket);
+    const rentG = unrealizedGain(rentBucket);
+    return {
+      buyCGT: buyG.equity * i.equityCgtRate + buyG.bond * i.bondCgtRate,
+      rentCGT: rentG.equity * i.equityCgtRate + rentG.bond * i.bondCgtRate,
+    };
+  },
+};

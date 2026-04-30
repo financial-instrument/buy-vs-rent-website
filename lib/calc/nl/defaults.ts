@@ -1,0 +1,41 @@
+import type { NLInputs } from "../core/types";
+
+export const nlDefaults = (): NLInputs => ({
+  country: "nl",
+  homePrice: 450_000,
+  downPaymentPct: 0.1,
+  mortgageRate: 0.045,
+  termYears: 30,
+  horizonYears: 10,
+  closingCostsPct: 0.05, // not used directly; transferTax + notary computed separately
+  appreciationPct: 0.03,
+  maintenancePct: 0.01,
+  insuranceAnnual: 600,
+  hoaMonthly: 0,
+  monthlyRent: 1800,
+  rentInflationPct: 0.03,
+  cpiPct: 0.02,
+  equityReturnPct: 0.07,
+  bondReturnPct: 0.04,
+  equitySplit: 0.7,
+  wozValue: 450_000,
+  partnered: false,
+  marginalRate: 0.4970, // 2025 top NL bracket roughly
+  hraCeilingRate: 0.3697,
+  ozbRate: 0.001,
+  ewfRateLow: 0.0035,
+  ewfRateHigh: 0.0235,
+  ewfHighThreshold: 1_310_000,
+  box3Threshold: 57_684,
+  box3DeemedYield: 0.0588, // 2025 transition deemed yield for "investments"
+  box3TaxRate: 0.36,
+  transferTaxRate: 0.02,
+  firstTimeBuyer: false,
+  firstTimeBuyerThreshold: 525_000,
+  notaryAdvisorPct: 0.015,
+  nhg: false,
+  nhgThreshold: 435_000,
+  nhgPremiumPct: 0.006,
+  nhgRateReductionBps: 50, // bps reduction on the rate when NHG applies
+  interestOnly: false,
+});
