@@ -33,6 +33,10 @@ export interface USInputs extends UniversalInputs {
   acquisitionDebtCap: number; // 750_000
   ltcgRate: number; // 0..1
   niit: boolean;
+  // Policy-simulation: annual growth applied to inflation-indexed thresholds.
+  standardDeductionGrowthPct: number;
+  saltCapGrowthPct: number;
+  acquisitionDebtCapGrowthPct: number;
 }
 
 export interface NLInputs extends UniversalInputs {
@@ -57,6 +61,9 @@ export interface NLInputs extends UniversalInputs {
   nhgPremiumPct: number;
   nhgRateReductionBps: number;
   interestOnly: boolean;
+  // Policy-simulation growth knobs (apply to recurring annual params only).
+  box3ThresholdGrowthPct: number;
+  wozGrowthPct: number; // WOZ drifts independently of market home value
 }
 
 export interface ITInputs extends UniversalInputs {
@@ -73,6 +80,8 @@ export interface ITInputs extends UniversalInputs {
   mutuoInterestCap: number; // 4000
   equityCgtRate: number; // 0.26
   bondCgtRate: number; // 0.125
+  // Policy-simulation growth knobs.
+  mutuoInterestCapGrowthPct: number;
 }
 
 export type CountryInputs = USInputs | NLInputs | ITInputs;

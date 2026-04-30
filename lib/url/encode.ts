@@ -37,6 +37,9 @@ const US_KEYS: Array<[keyof USInputs, string]> = [
   ["acquisitionDebtCap", "ad"],
   ["ltcgRate", "lt"],
   ["niit", "ni"],
+  ["standardDeductionGrowthPct", "gs"],
+  ["saltCapGrowthPct", "gc"],
+  ["acquisitionDebtCapGrowthPct", "ga"],
 ];
 
 const NL_KEYS: Array<[keyof NLInputs, string]> = [
@@ -60,6 +63,8 @@ const NL_KEYS: Array<[keyof NLInputs, string]> = [
   ["nhgPremiumPct", "np"],
   ["nhgRateReductionBps", "nr"],
   ["interestOnly", "io"],
+  ["box3ThresholdGrowthPct", "gb"],
+  ["wozGrowthPct", "gw"],
 ];
 
 const IT_KEYS: Array<[keyof ITInputs, string]> = [
@@ -75,6 +80,7 @@ const IT_KEYS: Array<[keyof ITInputs, string]> = [
   ["mutuoInterestCap", "mc"],
   ["equityCgtRate", "ec"],
   ["bondCgtRate", "bc"],
+  ["mutuoInterestCapGrowthPct", "gm"],
 ];
 
 function encodeValue(v: unknown): string {

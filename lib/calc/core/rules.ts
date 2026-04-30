@@ -44,10 +44,14 @@ export interface CountryRules {
     input: CountryInputs,
     buy: BucketState,
     rent: BucketState,
+    ctx?: { yearIndex: number },
   ): AnnualPortfolioDragResult;
   unrealizedCGT(input: CountryInputs, buy: BucketState, rent: BucketState): RealizationCGT;
   // Effective mortgage rate after country-specific adjustments (e.g. NHG bps reduction).
   effectiveRate(input: CountryInputs): number;
+  // Recurring monthly property tax (US property tax, NL OZB on WOZ, IT TARI).
+  // Needs the year index so per-year-escalating values (NL WOZ growth) flow through.
+  monthlyPropertyTax(input: CountryInputs, ctx: MonthlyContext): number;
 }
 
 export interface MonthlyContext {

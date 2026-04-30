@@ -5,9 +5,15 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Select } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { InfoLabel } from "./InfoLabel";
 
-interface NumberFieldProps {
+interface CommonProps {
   label: string;
+  glossaryId?: string;
+  hint?: string;
+}
+
+interface NumberFieldProps extends CommonProps {
   value: number;
   onChange: (v: number) => void;
   step?: number;
@@ -15,11 +21,11 @@ interface NumberFieldProps {
   max?: number;
   suffix?: string;
   prefix?: string;
-  hint?: string;
 }
 
 export function NumberField({
   label,
+  glossaryId,
   value,
   onChange,
   step = 1,
@@ -31,7 +37,7 @@ export function NumberField({
 }: NumberFieldProps) {
   return (
     <div className="grid gap-1">
-      <Label className="text-xs text-muted-foreground">{label}</Label>
+      <InfoLabel text={label} glossaryId={glossaryId} />
       <div className="flex items-center gap-1.5">
         {prefix && <span className="text-xs text-muted-foreground">{prefix}</span>}
         <Input
@@ -52,18 +58,17 @@ export function NumberField({
   );
 }
 
-interface PercentFieldProps {
-  label: string;
+interface PercentFieldProps extends CommonProps {
   value: number; // stored as fraction (0.07)
   onChange: (v: number) => void;
   step?: number; // in percent points
   min?: number;
   max?: number;
-  hint?: string;
 }
 
 export function PercentField({
   label,
+  glossaryId,
   value,
   onChange,
   step = 0.1,
@@ -75,6 +80,7 @@ export function PercentField({
   return (
     <NumberField
       label={label}
+      glossaryId={glossaryId}
       value={display}
       onChange={(v) => onChange(v / 100)}
       step={step}
@@ -86,8 +92,7 @@ export function PercentField({
   );
 }
 
-interface SliderFieldProps {
-  label: string;
+interface SliderFieldProps extends CommonProps {
   value: number;
   onChange: (v: number) => void;
   min: number;
@@ -98,6 +103,7 @@ interface SliderFieldProps {
 
 export function SliderField({
   label,
+  glossaryId,
   value,
   onChange,
   min,
@@ -108,7 +114,7 @@ export function SliderField({
   return (
     <div className="grid gap-2">
       <div className="flex items-center justify-between">
-        <Label className="text-xs text-muted-foreground">{label}</Label>
+        <InfoLabel text={label} glossaryId={glossaryId} />
         <span className="text-xs font-medium">{formatter ? formatter(value) : value}</span>
       </div>
       <Slider
@@ -122,18 +128,16 @@ export function SliderField({
   );
 }
 
-interface SwitchFieldProps {
-  label: string;
+interface SwitchFieldProps extends CommonProps {
   checked: boolean;
   onChange: (v: boolean) => void;
-  hint?: string;
 }
 
-export function SwitchField({ label, checked, onChange, hint }: SwitchFieldProps) {
+export function SwitchField({ label, glossaryId, checked, onChange, hint }: SwitchFieldProps) {
   return (
     <div className="flex items-start justify-between gap-3">
       <div className="grid gap-0.5">
-        <Label className="text-xs text-muted-foreground">{label}</Label>
+        <InfoLabel text={label} glossaryId={glossaryId} />
         {hint && <span className="text-[11px] text-muted-foreground">{hint}</span>}
       </div>
       <Switch checked={checked} onCheckedChange={onChange} />
@@ -141,8 +145,7 @@ export function SwitchField({ label, checked, onChange, hint }: SwitchFieldProps
   );
 }
 
-interface SelectFieldProps<T extends string> {
-  label: string;
+interface SelectFieldProps<T extends string> extends CommonProps {
   value: T;
   options: Array<{ value: T; label: string }>;
   onChange: (v: T) => void;
@@ -151,6 +154,7 @@ interface SelectFieldProps<T extends string> {
 
 export function SelectField<T extends string>({
   label,
+  glossaryId,
   value,
   options,
   onChange,
@@ -158,7 +162,7 @@ export function SelectField<T extends string>({
 }: SelectFieldProps<T>) {
   return (
     <div className={cn("grid gap-1", className)}>
-      <Label className="text-xs text-muted-foreground">{label}</Label>
+      <InfoLabel text={label} glossaryId={glossaryId} />
       <Select value={value} onChange={(e) => onChange(e.target.value as T)}>
         {options.map((o) => (
           <option key={o.value} value={o.value}>
@@ -169,3 +173,6 @@ export function SelectField<T extends string>({
     </div>
   );
 }
+
+// Re-export raw Label for callers that need it.
+export { Label };

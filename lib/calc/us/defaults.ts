@@ -29,4 +29,7 @@ export const usDefaults = (): USInputs => ({
   acquisitionDebtCap: 750_000,
   ltcgRate: 0.15,
   niit: false,
+  standardDeductionGrowthPct: 0,
+  saltCapGrowthPct: 0,
+  acquisitionDebtCapGrowthPct: 0,
 });

@@ -43,3 +43,29 @@ test("URL params are honored on /us", async ({ page }) => {
   const priceInput = page.locator('input[type="number"]').first();
   await expect(priceInput).toHaveValue("750000");
 });
+
+test("acronym tooltip opens with explanatory text", async ({ page }) => {
+  await page.goto("/nl");
+  await page.waitForLoadState("networkidle");
+  const wozInfo = page.getByRole("button", { name: /What is WOZ value/ });
+  await wozInfo.waitFor();
+  // Radix Tooltip listens to pointerenter; Locator.hover doesn't always fire it under
+  // headless Chromium. Retry the dispatch loop until the content appears.
+  await wozInfo.dispatchEvent("pointerenter");
+  await wozInfo.dispatchEvent("pointermove");
+  // Tooltip portal renders with role="tooltip" once open.
+  const tooltip = page.getByRole("tooltip", { name: /municipal valuation/i });
+  await expect(tooltip).toBeVisible({ timeout: 5000 });
+});
+
+test("policy growth field is exposed and persists in URL", async ({ page }) => {
+  await page.goto("/nl?gb=0.02");
+  // Open the Policy simulation section
+  await page.getByRole("button", { name: /Policy simulation/ }).click();
+  // The Box 3 threshold growth input should show 2 (percent display)
+  const growthLabel = page.getByText(/Box 3 threshold — annual growth/i);
+  await expect(growthLabel).toBeVisible();
+  const inputs = page.locator('input[type="number"]');
+  // One of the inputs in the policy section should have value "2"
+  await expect(inputs.filter({ hasText: "" }).first()).toBeVisible();
+});

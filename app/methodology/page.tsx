@@ -109,6 +109,25 @@ export default function MethodologyPage() {
         </li>
       </ul>
 
+      <h2 id="policy">Policy simulation (v1.1)</h2>
+      <p>
+        Several thresholds are inflation-indexed in real life: the NL Box 3 allowance, the
+        US standard deduction and SALT cap, the IT mutuo cap, etc. Each of those exposes a
+        sibling annual-growth field. At year tick <code>N</code>, the engine evaluates the
+        parameter as <code>base × (1 + growth)^(N − 1)</code>, so year 1 always matches the
+        base value and growth compounds geometrically afterwards.
+      </p>
+      <p>
+        Set the growth to 0% for "frozen at today's value" (this is what historic IT mutuo
+        caps look like). Use 2% to approximate CPI indexation. Negative values let you
+        simulate cuts (e.g. SALT cap halving in year 5 — though we only support smooth
+        compounding, not step changes; that's a v2 feature).
+      </p>
+      <p>
+        One-time costs (transfer tax, registration tax, NHG/first-time-buyer thresholds,
+        cadastral value for closing) aren't escalated since they only fire at <em>t = 0</em>.
+      </p>
+
       <h2>Open assumptions (v1)</h2>
       <ul>
         <li>Dividend withholding tax on equity ETFs ignored.</li>

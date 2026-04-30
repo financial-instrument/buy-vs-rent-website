@@ -38,6 +38,8 @@ export const nlSchema = z.object({
   nhgPremiumPct: z.number().min(0).max(0.05),
   nhgRateReductionBps: z.number().min(0).max(500),
   interestOnly: z.boolean(),
+  box3ThresholdGrowthPct: z.number().min(-0.2).max(0.5),
+  wozGrowthPct: z.number().min(-0.2).max(0.5),
 }).refine((d) => d.horizonYears <= d.termYears, {
   message: "horizon must be ≤ mortgage term",
   path: ["horizonYears"],

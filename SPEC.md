@@ -27,6 +27,21 @@ The site is a long-tail SEO play monetized via Google AdSense. It must be static
 - English only
 - URL-encoded inputs ("share my scenario" via copy-link); no save/login
 
+### v1.1 (additive features)
+
+- **Acronym tooltips.** Every country-specific or jargon-y label (WOZ, EWF, HRA, NHG, OZB, IMU, TARI, PMI, MID, SALT, LTCG, NIIT, IVA, "prima casa", "mutuo", "imposta di registro", "imposta ipotecaria + catastale", "Eigenwoningforfait", "Hypotheekrenteaftrek", "Box 3", "Nationale Hypotheek Garantie") gets a hover/focus info tooltip with a 1–3 sentence explanation. Implementation: small `<InfoLabel>` wrapper that wraps shadcn's Tooltip primitive around an info icon next to the label. Acronym dictionary lives in `lib/glossary.ts` keyed by short id.
+- **Tunable tax parameters with time-varying support (policy-simulation mode).**
+  - All static rates (Box 3 tax/yield, SALT cap, standard deduction, mutuo cap, transfer-tax rate, OZB rate, etc.) are user-tunable from the form. They were already in the input schemas — UI exposure is the missing piece.
+  - Threshold-style parameters that the legislator typically index for inflation gain a sibling `*GrowthPct` field. At year tick `y` (1-based), the engine reads `param × (1 + growth)^(y−1)` so year 1 matches the base value and growth compounds in subsequent years. v1.1 covers parameters that drive *recurring* annual costs:
+    - NL: `box3ThresholdGrowthPct`, `wozGrowthPct` (so EWF/OZB also drift with the WOZ over time)
+    - US: `standardDeductionGrowthPct`, `saltCapGrowthPct`, `acquisitionDebtCapGrowthPct`
+    - IT: `mutuoInterestCapGrowthPct`
+  - One-time costs (transfer tax, registration, NHG/first-time-buyer thresholds, IT cadastral) aren't escalated since they only fire at t=0.
+  - Defaults are 0 (= no growth, current behavior). Setting them to e.g. 2% lets the user see "what if Box 3 allowance keeps rising with CPI?" or "what if SALT cap is repealed in year 5?".
+  - Growth applies multiplicatively per year tick; rules functions read the live value via a small helper `escalate(base, growth, yearIndex)`. No discontinuous "policy change at year N" in v1.1 — growth is monotone-geometric only. Step changes are a v2 idea.
+  - URL-encode the new fields with stable 2-char keys; defaults of 0 are still serialized for round-trip clarity.
+- Methodology page gets a "Policy simulation" section explaining the growth knobs.
+
 ### Out of scope for v1 (architect for later)
 
 - Sensitivity grids over (rate × appreciation × horizon) — slot in after v1 ships
@@ -34,6 +49,7 @@ The site is a long-tail SEO play monetized via Google AdSense. It must be static
 - Early sale, refinancing, extra principal payments
 - Localization (Dutch, Italian)
 - Scenario save / accounts / backend
+- Discontinuous policy step changes (e.g. "SALT cap doubles in year 5") — v1.1 only models smooth geometric growth
 
 ---
 

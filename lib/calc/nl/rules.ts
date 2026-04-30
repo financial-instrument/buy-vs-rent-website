@@ -1,3 +1,4 @@
+import { escalate } from "../core/escalate";
 import { bucketTotal } from "../core/portfolio";
 import type {
   AnnualBuyTaxResult,
@@ -33,10 +34,18 @@ export const nlRules: CountryRules = {
     };
   },
   monthlyExtras: (): MonthlyExtras => ({ countryAdj: 0 }),
+  monthlyPropertyTax: (input, ctx): number => {
+    const i = input as NLInputs;
+    // OZB on WOZ; WOZ drifts at wozGrowthPct/yr.
+    const woz = escalate(i.wozValue, i.wozGrowthPct, ctx.yearIndex);
+    return (i.ozbRate * woz) / 12;
+  },
   annualBuyTax: (input, ctx): AnnualBuyTaxResult => {
     const i = input as NLInputs;
+    const y0 = ctx.yearIndex - 1;
+    // WOZ drifts independently of market value at wozGrowthPct/yr.
+    const woz = escalate(i.wozValue, i.wozGrowthPct, y0);
     // Eigenwoningforfait
-    const woz = i.wozValue;
     const ewf = woz <= i.ewfHighThreshold
       ? woz * i.ewfRateLow
       : i.ewfHighThreshold * i.ewfRateLow + (woz - i.ewfHighThreshold) * i.ewfRateHigh;
@@ -53,9 +62,11 @@ export const nlRules: CountryRules = {
       breakdown: { ewf, hraDeduction, ewfAddBack, hraRate },
     };
   },
-  annualPortfolioDrag: (input, buyBucket, rentBucket): AnnualPortfolioDragResult => {
+  annualPortfolioDrag: (input, buyBucket, rentBucket, ctx): AnnualPortfolioDragResult => {
     const i = input as NLInputs;
-    const threshold = i.partnered ? i.box3Threshold * 2 : i.box3Threshold;
+    const y0 = (ctx?.yearIndex ?? 1) - 1;
+    const baseThreshold = escalate(i.box3Threshold, i.box3ThresholdGrowthPct, y0);
+    const threshold = i.partnered ? baseThreshold * 2 : baseThreshold;
     const compute = (val: number) => {
       const taxable = Math.max(0, val - threshold);
       const deemed = taxable * i.box3DeemedYield;

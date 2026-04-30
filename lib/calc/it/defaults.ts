@@ -30,4 +30,5 @@ export const itDefaults = (): ITInputs => ({
   mutuoInterestCap: 4_000,
   equityCgtRate: 0.26,
   bondCgtRate: 0.125,
+  mutuoInterestCapGrowthPct: 0,
 });

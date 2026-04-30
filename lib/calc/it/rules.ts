@@ -1,3 +1,4 @@
+import { escalate } from "../core/escalate";
 import { unrealizedGain } from "../core/portfolio";
 import type {
   AnnualBuyTaxResult,
@@ -32,10 +33,17 @@ export const itRules: CountryRules = {
     void input;
     return { countryAdj: 0 };
   },
+  monthlyPropertyTax: (input): number => {
+    const i = input as ITInputs;
+    // IMU exempt prima casa; TARI flat annual.
+    return i.tariAnnual / 12;
+  },
   annualBuyTax: (input, ctx): AnnualBuyTaxResult => {
     const i = input as ITInputs;
+    const y0 = ctx.yearIndex - 1;
+    const cap = escalate(i.mutuoInterestCap, i.mutuoInterestCapGrowthPct, y0);
     // Mutuo deduction: 19% × min(interestPaidYr, €4,000) credit (prima casa).
-    const credit = i.mutuoDeductionRate * Math.min(ctx.interestPaidYear, i.mutuoInterestCap);
+    const credit = i.mutuoDeductionRate * Math.min(ctx.interestPaidYear, cap);
     return {
       netCashEffect: -credit,
       breakdown: { credit },

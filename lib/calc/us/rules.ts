@@ -1,3 +1,4 @@
+import { escalate } from "../core/escalate";
 import { unrealizedGain } from "../core/portfolio";
 import type {
   AnnualBuyTaxResult,
@@ -21,19 +22,30 @@ export const usRules: CountryRules = {
     return { closingTotal: closing, breakdown: { closing } };
   },
   monthlyExtras: (): MonthlyExtras => ({ countryAdj: 0 }),
+  monthlyPropertyTax: (input, ctx): number => {
+    const i = input as USInputs;
+    return (i.propertyTaxRate * ctx.homeValue) / 12;
+  },
   annualBuyTax: (input, ctx): AnnualBuyTaxResult => {
     const i = input as USInputs;
+    const y0 = ctx.yearIndex - 1; // year 1 → base, year N → (1+g)^(N-1)
+    const acqCap = escalate(i.acquisitionDebtCap, i.acquisitionDebtCapGrowthPct, y0);
+    const saltCap = escalate(i.saltCap, i.saltCapGrowthPct, y0);
+    const standardSingle = escalate(
+      i.standardDeductionSingle,
+      i.standardDeductionGrowthPct,
+      y0,
+    );
+    const standardMFJ = escalate(i.standardDeductionMFJ, i.standardDeductionGrowthPct, y0);
     const stateIncomeTax = 0; // We don't model income; SALT cap covers state income tax + property tax.
-    // Acquisition-debt cap on deductible interest.
     const deductibleRatio = ctx.avgLoanBalanceYear > 0
-      ? Math.min(1, i.acquisitionDebtCap / ctx.avgLoanBalanceYear)
+      ? Math.min(1, acqCap / ctx.avgLoanBalanceYear)
       : 0;
     const deductibleInterest = ctx.interestPaidYear * deductibleRatio;
     const saltUncapped = ctx.propertyTaxYear + stateIncomeTax;
-    const saltCapped = Math.min(saltUncapped, i.saltCap);
+    const saltCapped = Math.min(saltUncapped, saltCap);
     const itemized = deductibleInterest + saltCapped;
-    const standard =
-      i.filing === "mfj" ? i.standardDeductionMFJ : i.standardDeductionSingle;
+    const standard = i.filing === "mfj" ? standardMFJ : standardSingle;
     const benefitBase = Math.max(0, itemized - standard);
     const midBenefit = i.federalMarginalRate * benefitBase;
     // MID benefit is a tax SAVING for the buyer → negative cash effect.

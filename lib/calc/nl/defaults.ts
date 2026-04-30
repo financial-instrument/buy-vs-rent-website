@@ -38,4 +38,6 @@ export const nlDefaults = (): NLInputs => ({
   nhgPremiumPct: 0.006,
   nhgRateReductionBps: 50, // bps reduction on the rate when NHG applies
   interestOnly: false,
+  box3ThresholdGrowthPct: 0,
+  wozGrowthPct: 0,
 });

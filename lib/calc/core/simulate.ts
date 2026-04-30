@@ -92,20 +92,21 @@ export function simulate(input: CountryInputs, rules: CountryRules): SimulationR
     homeValue = homeValue * (1 + monthlyAppreciation);
 
     // Recurring buy-side monthly costs
-    const propertyTax = monthlyPropertyTax(input, homeValue);
-    const insurance = input.insuranceAnnual / 12;
-    const hoa = input.hoaMonthly;
-    const maintenance = (input.maintenancePct * homeValue) / 12;
-    const ltv = homeValue > 0 ? loanBalance / homeValue : 0;
-    const pmi = monthlyPMI(input, loanPrincipal, ltv);
-    const extras = rules.monthlyExtras(input, {
+    const monthlyCtx = {
       monthIndex: t - 1,
       yearIndex: yearIndex0,
       loanBalance,
       homeValue,
       interestThisMonth: split.interest,
       loanOriginal: loanPrincipal,
-    });
+    };
+    const propertyTax = rules.monthlyPropertyTax(input, monthlyCtx);
+    const insurance = input.insuranceAnnual / 12;
+    const hoa = input.hoaMonthly;
+    const maintenance = (input.maintenancePct * homeValue) / 12;
+    const ltv = homeValue > 0 ? loanBalance / homeValue : 0;
+    const pmi = monthlyPMI(input, loanPrincipal, ltv);
+    const extras = rules.monthlyExtras(input, monthlyCtx);
 
     yrPropertyTax += propertyTax;
     yrPMI += pmi;
@@ -194,7 +195,9 @@ export function simulate(input: CountryInputs, rules: CountryRules): SimulationR
       }
 
       // Portfolio drag (NL Box 3 / IT bollo). Always paid out of the relevant portfolio.
-      const drag = rules.annualPortfolioDrag(input, buyBucket, rentBucket);
+      const drag = rules.annualPortfolioDrag(input, buyBucket, rentBucket, {
+        yearIndex: yearIndex1,
+      });
       if (drag.buyDrag > 0) {
         const w = withdraw(buyBucket, drag.buyDrag);
         buyBucket = w.bucket;
@@ -262,23 +265,6 @@ export function simulate(input: CountryInputs, rules: CountryRules): SimulationR
     delta,
     winner,
   };
-}
-
-function monthlyPropertyTax(input: CountryInputs, homeValue: number): number {
-  if (input.country === "us") {
-    return (input.propertyTaxRate * homeValue) / 12;
-  }
-  if (input.country === "nl") {
-    // OZB applied to WOZ value — not the live home value.
-    // We approximate by applying ozbRate to wozValue (assumed flat in v1).
-    return (input.ozbRate * input.wozValue) / 12;
-  }
-  // IT prima casa: IMU exempt; TARI is annual flat (handled below as countryAdj? No —
-  // TARI is also a recurring cost, so we surface it here as the "property tax" line.
-  if (input.country === "it") {
-    return input.tariAnnual / 12;
-  }
-  return 0;
 }
 
 function monthlyPMI(input: CountryInputs, loanOriginal: number, ltv: number): number {
