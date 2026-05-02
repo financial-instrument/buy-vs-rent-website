@@ -253,9 +253,18 @@ export function simulate(input: CountryInputs, rules: CountryRules): SimulationR
   const winner: "buy" | "rent" | "tie" =
     Math.abs(delta) < 1 ? "tie" : delta > 0 ? "buy" : "rent";
 
+  // t=0 net worths: buyer holds downPayment in home equity; renter holds W0 invested.
+  // The closing costs are the friction the buyer eats up front (no portfolio yet).
+  const yearZero = {
+    buyNetWorth: downPayment,
+    rentNetWorth: W0,
+    closingCostsPenalty: closing.closingTotal,
+  };
+
   return {
     monthly,
     yearly,
+    yearZero,
     inputs: input,
     W0,
     loanPrincipal,

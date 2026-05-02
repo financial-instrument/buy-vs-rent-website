@@ -42,6 +42,23 @@ describe("symmetric differential rule", () => {
     expect(lastMonth.rentPortfolio).toBeCloseTo(matched.W0, 0);
   });
 
+  it("year 0: rent − buy net worth equals closing costs (the buyer's friction)", () => {
+    const input: USInputs = {
+      ...usDefaults(),
+      homePrice: 600_000,
+      downPaymentPct: 0.2,
+      closingCostsPct: 0.03,
+      horizonYears: 1,
+    };
+    const r = runSimulation(input);
+    const dp = input.homePrice * input.downPaymentPct;
+    const closing = input.homePrice * input.closingCostsPct;
+    expect(r.yearZero.buyNetWorth).toBeCloseTo(dp, 4);
+    expect(r.yearZero.rentNetWorth).toBeCloseTo(dp + closing, 4);
+    expect(r.yearZero.rentNetWorth - r.yearZero.buyNetWorth).toBeCloseTo(closing, 4);
+    expect(r.yearZero.closingCostsPenalty).toBeCloseTo(closing, 4);
+  });
+
   it("monotonically increasing portfolios when returns are positive and outflows match", () => {
     const input: USInputs = {
       ...usDefaults(),

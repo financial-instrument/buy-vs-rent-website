@@ -136,6 +136,10 @@ export interface YearlySnapshot {
 export interface SimulationResult {
   monthly: MonthlyState[];
   yearly: YearlySnapshot[];
+  // t=0 snapshot: buyer's home equity (= down payment) vs renter's invested W0.
+  // Their difference is exactly the buy-side closing costs — the friction the
+  // buyer eats up front (agents, notary, transfer/registration tax, NHG premium…).
+  yearZero: { buyNetWorth: number; rentNetWorth: number; closingCostsPenalty: number };
   inputs: CountryInputs;
   W0: number; // initial liquid wealth
   loanPrincipal: number;

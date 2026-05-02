@@ -18,11 +18,18 @@ export function NetWorthChart({
   result: SimulationResult;
   currency: Currency;
 }) {
-  const data = result.yearly.map((y) => ({
-    year: y.year,
-    Buy: Math.round(y.buyNetWorth),
-    Rent: Math.round(y.rentNetWorth),
-  }));
+  const data = [
+    {
+      year: 0,
+      Buy: Math.round(result.yearZero.buyNetWorth),
+      Rent: Math.round(result.yearZero.rentNetWorth),
+    },
+    ...result.yearly.map((y) => ({
+      year: y.year,
+      Buy: Math.round(y.buyNetWorth),
+      Rent: Math.round(y.rentNetWorth),
+    })),
+  ];
   return (
     <div className="h-[320px] w-full" data-testid="net-worth-chart">
       <ResponsiveContainer>
