@@ -22,6 +22,10 @@ const MonthlyCostChart = dynamic(
   () => import("./MonthlyCostChart").then((m) => m.MonthlyCostChart),
   { ssr: false, loading: () => <Skeleton className="h-72 w-full" /> },
 );
+const SensitivityTable = dynamic(
+  () => import("./SensitivityTable").then((m) => m.SensitivityTable),
+  { ssr: false, loading: () => <Skeleton className="h-48 w-full" /> },
+);
 
 const FLAGS: Record<Country, string> = { us: "🇺🇸", nl: "🇳🇱", it: "🇮🇹" };
 const NAMES: Record<Country, string> = {
@@ -89,6 +93,22 @@ export function Calculator({ country, currency }: { country: Country; currency: 
           </CardHeader>
           <CardContent>
             <MonthlyCostChart result={result} currency={currency} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Sensitivity (rate × appreciation)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <details className="group">
+              <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
+                Show heat grid (~81 simulations across ±2% rate and appreciation)
+              </summary>
+              <div className="mt-4">
+                <SensitivityTable inputs={inputs} currency={currency} />
+              </div>
+            </details>
           </CardContent>
         </Card>
 
