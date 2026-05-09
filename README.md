@@ -34,4 +34,4 @@ npm run e2e         # Playwright
 
 ## License
 
-Educational tool. Not financial advice.
+[MIT](LICENSE.md). Educational tool — not financial advice.
