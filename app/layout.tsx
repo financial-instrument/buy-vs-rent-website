@@ -1,20 +1,42 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID;
 
+const SITE_DESCRIPTION =
+  "Compare renting and buying a home over your time horizon, with country-specific taxes (US, Netherlands, Italy) and full opportunity cost.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rentvsbuy.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Rent vs Buy Calculator",
     template: "%s — Rent vs Buy",
   },
-  description:
-    "Compare renting and buying a home over your time horizon, with country-specific taxes (US, Netherlands, Italy) and full opportunity cost.",
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: "Rent vs Buy",
+    url: SITE_URL,
+    title: {
+      default: "Rent vs Buy Calculator",
+      template: "%s — Rent vs Buy",
+    },
+    description: SITE_DESCRIPTION,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: {
+      default: "Rent vs Buy Calculator",
+      template: "%s — Rent vs Buy",
+    },
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -89,9 +111,18 @@ function Header() {
 function Footer() {
   return (
     <footer className="border-t py-6">
-      <div className="container text-xs text-muted-foreground">
-        Educational tool. Not financial advice. Tax parameters reflect 2025 rules and may
-        change.
+      <div className="container flex flex-col gap-2 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <span>
+          Educational tool. Not financial advice. Tax parameters reflect 2025 rules and may
+          change.
+        </span>
+        <nav className="flex gap-4">
+          <Link href="/privacy" className="hover:underline">Privacy</Link>
+          <Link href="/terms" className="hover:underline">Terms</Link>
+          <a href="mailto:financial-instruments@proton.me" className="hover:underline">
+            Contact
+          </a>
+        </nav>
       </div>
     </footer>
   );
