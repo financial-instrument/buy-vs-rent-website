@@ -25,6 +25,7 @@ export function AdSense({ slot, className }: AdSenseProps) {
   }, []);
 
   if (!CLIENT) {
+    if (process.env.NODE_ENV !== "development") return null;
     return (
       <div
         className={`rounded-md border border-dashed p-6 text-center text-xs text-muted-foreground ${className ?? ""}`}
