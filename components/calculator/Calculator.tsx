@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { runSimulation } from "@/lib/calc";
 import { decode } from "@/lib/url/decode";
@@ -7,12 +8,20 @@ import { itDefaults, nlDefaults, usDefaults } from "@/lib/calc";
 import type { Country, Currency } from "@/lib/calc/core/types";
 import { Inputs } from "./Inputs";
 import { Summary } from "./Summary";
-import { NetWorthChart } from "./NetWorthChart";
-import { MonthlyCostChart } from "./MonthlyCostChart";
 import { ShareLink } from "./ShareLink";
 import { AdSense } from "@/components/ads/AdSense";
 import { useCalcStore } from "./store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const NetWorthChart = dynamic(
+  () => import("./NetWorthChart").then((m) => m.NetWorthChart),
+  { ssr: false, loading: () => <Skeleton className="h-72 w-full" /> },
+);
+const MonthlyCostChart = dynamic(
+  () => import("./MonthlyCostChart").then((m) => m.MonthlyCostChart),
+  { ssr: false, loading: () => <Skeleton className="h-72 w-full" /> },
+);
 
 const FLAGS: Record<Country, string> = { us: "🇺🇸", nl: "🇳🇱", it: "🇮🇹" };
 const NAMES: Record<Country, string> = {
