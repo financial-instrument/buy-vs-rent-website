@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Calculator } from "@/components/calculator/Calculator";
+import { CalculatorSkeleton } from "@/components/calculator/CalculatorSkeleton";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
 
@@ -28,7 +29,16 @@ export default function ITPage() {
   return (
     <>
       <JsonLd data={schema} />
-      <Suspense fallback={<div className="p-12 text-sm text-muted-foreground">Loading…</div>}>
+      <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pb-2">
+        <p>
+          Compare renting and buying in Italy after taxes — prima casa registration,
+          the 19% mutuo interest credit, bollo on the renter's portfolio, and the
+          26% / 12.5% capital-gains split for equity ETFs vs government bonds. Both
+          households start with the same liquid wealth; the lower-outflow side invests
+          the difference each month.
+        </p>
+      </section>
+      <Suspense fallback={<CalculatorSkeleton />}>
         <Calculator country="it" currency="EUR" />
       </Suspense>
       <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pt-10">

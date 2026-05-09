@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Calculator } from "@/components/calculator/Calculator";
+import { CalculatorSkeleton } from "@/components/calculator/CalculatorSkeleton";
 import { JsonLd } from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
 
@@ -28,7 +29,16 @@ export default function NLPage() {
   return (
     <>
       <JsonLd data={schema} />
-      <Suspense fallback={<div className="p-12 text-sm text-muted-foreground">Loading…</div>}>
+      <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pb-2">
+        <p>
+          Compare renting and buying in the Netherlands after taxes —
+          Hypotheekrenteaftrek, the Eigenwoningforfait add-back, OZB, the 2% transfer
+          tax with the optional starter exemption, NHG, and Box 3 wealth tax on the
+          renter's portfolio. Both households start with the same liquid wealth; the
+          lower-outflow side invests the difference each month.
+        </p>
+      </section>
+      <Suspense fallback={<CalculatorSkeleton />}>
         <Calculator country="nl" currency="EUR" />
       </Suspense>
       <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pt-10">
