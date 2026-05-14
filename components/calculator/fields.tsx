@@ -38,6 +38,11 @@ export function NumberField({
   return (
     <div className="grid gap-1">
       <InfoLabel text={label} glossaryId={glossaryId} />
+      {hint && (
+        <span className="text-[11px] leading-tight text-muted-foreground">
+          {hint}
+        </span>
+      )}
       <div className="flex items-center gap-1.5">
         {prefix && <span className="text-xs text-muted-foreground">{prefix}</span>}
         <Input
@@ -53,7 +58,6 @@ export function NumberField({
         />
         {suffix && <span className="text-xs text-muted-foreground">{suffix}</span>}
       </div>
-      {hint && <span className="text-[11px] text-muted-foreground">{hint}</span>}
     </div>
   );
 }

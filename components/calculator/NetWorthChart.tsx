@@ -1,6 +1,7 @@
 "use client";
 import {
   CartesianGrid,
+  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -48,6 +49,7 @@ export function NetWorthChart({
             formatter={(v: number) => formatCurrency(v, currency)}
             labelFormatter={(l) => `Year ${l}`}
           />
+          <Legend wrapperStyle={{ fontSize: 12 }} />
           <Line
             type="monotone"
             dataKey="Buy"

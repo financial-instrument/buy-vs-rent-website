@@ -137,7 +137,7 @@ export function Calculator({ country, currency }: { country: Country; currency: 
           <CardContent>
             <details className="group">
               <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
-                Show heat grid (~81 simulations across ±2% rate and appreciation)
+                Show grid — pick two inputs and compute on demand
               </summary>
               <div className="mt-4">
                 <SensitivityTable inputs={inputs} currency={currency} />

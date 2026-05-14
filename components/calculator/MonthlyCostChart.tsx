@@ -4,8 +4,6 @@ import {
   BarChart,
   CartesianGrid,
   Legend,
-  Line,
-  ComposedChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -23,9 +21,9 @@ export function MonthlyCostChart({
 }) {
   if (result.monthly.length === 0) return null;
 
-  // Bucket the monthly snapshots by year. We display each year as one stacked bar
-  // showing the average monthly buyer-cost composition for that year, plus the
-  // renter's monthly rent overlaid as a line so the comparison is visible.
+  // Bucket the monthly snapshots by year. Each year gets two side-by-side
+  // bars: the buyer's stacked cost composition and the renter's rent (both
+  // 12-month averages for that year).
   const yearlyAvg: Array<{
     year: number;
     "P&I": number;
@@ -66,14 +64,10 @@ export function MonthlyCostChart({
     });
   }
 
-  // For short horizons (e.g. 1–3 years) the composed chart is overkill; fall
-  // back to a single stacked bar comparison.
-  const Chart = yearlyAvg.length > 1 ? ComposedChart : BarChart;
-
   return (
     <div className="h-[280px] w-full">
       <ResponsiveContainer>
-        <Chart data={yearlyAvg} margin={{ top: 8, right: 16, left: 8, bottom: 8 }}>
+        <BarChart data={yearlyAvg} margin={{ top: 8, right: 16, left: 8, bottom: 8 }}>
           <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
           <XAxis dataKey="year" tick={{ fontSize: 12 }} />
           <YAxis
@@ -93,17 +87,8 @@ export function MonthlyCostChart({
           <Bar stackId="buy" dataKey="HOA" fill="#94a3b8" isAnimationActive={false} />
           <Bar stackId="buy" dataKey="Maintenance" fill="#10b981" isAnimationActive={false} />
           <Bar stackId="buy" dataKey="PMI" fill="#ef4444" isAnimationActive={false} />
-          {yearlyAvg.length > 1 && (
-            <Line
-              type="monotone"
-              dataKey="Rent"
-              stroke="#3b82f6"
-              strokeWidth={2}
-              dot={false}
-              isAnimationActive={false}
-            />
-          )}
-        </Chart>
+          <Bar stackId="rent" dataKey="Rent" fill="#3b82f6" isAnimationActive={false} />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );

@@ -6,7 +6,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
 import "./globals.css";
 
-const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+// Hardcoded as the default so the AdSense verification snippet ships on every
+// page out of the box. Override via NEXT_PUBLIC_ADSENSE_CLIENT if needed.
+const ADSENSE_CLIENT =
+  process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "ca-pub-8574366979839175";
 const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID;
 
