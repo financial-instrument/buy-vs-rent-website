@@ -11,13 +11,14 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { formatCurrency, formatPercent } from "@/lib/utils";
 
-const AXIS_KEYS: SensitivityAxisKey[] = [
+const ALL_AXIS_KEYS: SensitivityAxisKey[] = [
   "mortgageRate",
   "appreciationPct",
   "equityReturnPct",
   "rentInflationPct",
   "horizonYears",
   "downPaymentPct",
+  "box3TaxRate",
 ];
 
 function formatAxisValue(key: SensitivityAxisKey, v: number): string {
@@ -33,6 +34,10 @@ export function SensitivityTable({
   inputs: CountryInputs;
   currency: Currency;
 }) {
+  const axisKeys = ALL_AXIS_KEYS.filter((k) => {
+    const cfg = SENSITIVITY_AXES[k];
+    return !cfg.country || cfg.country === inputs.country;
+  });
   const [rowAxis, setRowAxis] = useState<SensitivityAxisKey>("mortgageRate");
   const [colAxis, setColAxis] = useState<SensitivityAxisKey>("appreciationPct");
   const [grid, setGrid] = useState<SensitivityGrid | null>(null);
@@ -63,12 +68,14 @@ export function SensitivityTable({
           value={rowAxis}
           onChange={setRowAxis}
           exclude={colAxis}
+          keys={axisKeys}
         />
         <AxisPicker
           label="X axis (columns)"
           value={colAxis}
           onChange={setColAxis}
           exclude={rowAxis}
+          keys={axisKeys}
         />
         <Button onClick={run} disabled={sameAxis || pending} size="sm">
           {pending ? "Running…" : grid ? "Re-run" : "Run sensitivity"}
@@ -153,11 +160,13 @@ function AxisPicker({
   value,
   onChange,
   exclude,
+  keys,
 }: {
   label: string;
   value: SensitivityAxisKey;
   onChange: (v: SensitivityAxisKey) => void;
   exclude: SensitivityAxisKey;
+  keys: SensitivityAxisKey[];
 }) {
   return (
     <div className="grid gap-1">
@@ -166,7 +175,7 @@ function AxisPicker({
         value={value}
         onChange={(e) => onChange(e.target.value as SensitivityAxisKey)}
       >
-        {AXIS_KEYS.map((k) => (
+        {keys.map((k) => (
           <option key={k} value={k} disabled={k === exclude}>
             {SENSITIVITY_AXES[k].label}
           </option>

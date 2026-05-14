@@ -106,7 +106,7 @@ export function Calculator({ country, currency }: { country: Country; currency: 
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              Sensitivity (rate × appreciation)
+              Sensitivity
               <TooltipProvider delayDuration={150}>
                 <Tooltip>
                   <TooltipTrigger asChild>
