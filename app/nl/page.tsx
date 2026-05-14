@@ -29,7 +29,7 @@ export default function NLPage() {
   return (
     <>
       <JsonLd data={schema} />
-      <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pb-2">
+      <section className="prose prose-sm dark:prose-invert max-w-none pb-2">
         <p>
           Compare renting and buying in the Netherlands after taxes —
           Hypotheekrenteaftrek, the Eigenwoningforfait add-back, OZB, the 2% transfer
@@ -41,7 +41,7 @@ export default function NLPage() {
       <Suspense fallback={<CalculatorSkeleton />}>
         <Calculator country="nl" currency="EUR" />
       </Suspense>
-      <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pt-10">
+      <section className="prose prose-sm dark:prose-invert max-w-none pt-10">
         <h2>How this Dutch calculator works</h2>
         <p>
           The Netherlands version handles the parts that generic rent-vs-buy tools

@@ -14,7 +14,7 @@ import { itDefaults } from "./defaults";
 export const itRules: CountryRules = {
   defaults: () => itDefaults(),
   effectiveRate: (input) => input.mortgageRate,
-  oneTimeCosts: (input): OneTimeCosts => {
+  oneTimeCosts: (input, loanPrincipal): OneTimeCosts => {
     const i = input as ITInputs;
     const registro = i.registrationTaxRate * i.cadastralValue;
     const ipoCat = i.fixedIpotecariaCatastale;
@@ -22,10 +22,13 @@ export const itRules: CountryRules = {
     const agentNet = i.agentPct * i.homePrice;
     const agentIva = agentNet * i.agentIvaPct;
     const agent = agentNet + agentIva;
-    const total = registro + ipoCat + notary + agent;
+    // Imposta sostitutiva sul mutuo: 0.25% × loan amount (prima casa).
+    // Stamp tax — not deductible, paid at mortgage origination.
+    const mutuoStampTax = i.mutuoStampTaxRate * loanPrincipal;
+    const total = registro + ipoCat + notary + agent + mutuoStampTax;
     return {
       closingTotal: total,
-      breakdown: { registro, ipoCat, notary, agent },
+      breakdown: { registro, ipoCat, notary, agent, mutuoStampTax },
     };
   },
   monthlyExtras: (input): MonthlyExtras => {

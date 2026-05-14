@@ -29,7 +29,7 @@ export default function ITPage() {
   return (
     <>
       <JsonLd data={schema} />
-      <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pb-2">
+      <section className="prose prose-sm dark:prose-invert max-w-none pb-2">
         <p>
           Compare renting and buying in Italy after taxes — prima casa registration,
           the 19% mutuo interest credit, bollo on the renter's portfolio, and the
@@ -41,7 +41,7 @@ export default function ITPage() {
       <Suspense fallback={<CalculatorSkeleton />}>
         <Calculator country="it" currency="EUR" />
       </Suspense>
-      <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pt-10">
+      <section className="prose prose-sm dark:prose-invert max-w-none pt-10">
         <h2>How this Italian calculator works</h2>
         <p>
           The Italian version assumes prima casa, non-luxury (categoria A/2–A/7),

@@ -55,11 +55,27 @@ export const nlRules: CountryRules = {
     const hraDeduction = i.interestOnly ? 0 : hraRate * ctx.interestPaidYear;
     const ewfAddBack = i.marginalRate * ewf;
 
-    // Net effect: HRA reduces tax (negative cash effect), EWF increases it.
-    const netCashEffect = -hraDeduction + ewfAddBack;
+    // Year-1 one-off: financing-related costs are deductible from Box 1 income
+    // in the year of purchase — the mortgage-related portion of the notary +
+    // advisor + valuation bundle, plus the NHG premium in full. Only applies
+    // for HRA-eligible (annuity) products.
+    let oneOffDeduction = 0;
+    if (ctx.yearIndex === 1 && !i.interestOnly) {
+      const notaryBundle = i.notaryAdvisorPct * i.homePrice;
+      const nhgPremium =
+        i.nhg && i.homePrice <= i.nhgThreshold
+          ? i.nhgPremiumPct * (i.homePrice - i.homePrice * i.downPaymentPct)
+          : 0;
+      const deductibleClosing =
+        i.notaryDeductiblePortion * notaryBundle + nhgPremium;
+      oneOffDeduction = i.marginalRate * deductibleClosing;
+    }
+
+    // Net effect: HRA + one-off reduce tax (negative cash effect), EWF increases it.
+    const netCashEffect = -hraDeduction - oneOffDeduction + ewfAddBack;
     return {
       netCashEffect,
-      breakdown: { ewf, hraDeduction, ewfAddBack, hraRate },
+      breakdown: { ewf, hraDeduction, oneOffDeduction, ewfAddBack, hraRate },
     };
   },
   annualPortfolioDrag: (input, buyBucket, rentBucket, ctx): AnnualPortfolioDragResult => {

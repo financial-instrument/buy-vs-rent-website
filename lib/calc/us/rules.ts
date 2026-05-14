@@ -37,7 +37,9 @@ export const usRules: CountryRules = {
       y0,
     );
     const standardMFJ = escalate(i.standardDeductionMFJ, i.standardDeductionGrowthPct, y0);
-    const stateIncomeTax = 0; // We don't model income; SALT cap covers state income tax + property tax.
+    // State+local income tax = household income × rate. Approximation: assumes
+    // a flat effective rate; doesn't model state-bracket structure.
+    const stateIncomeTax = i.householdIncomeAnnual * i.stateLocalIncomeRate;
     const deductibleRatio = ctx.avgLoanBalanceYear > 0
       ? Math.min(1, acqCap / ctx.avgLoanBalanceYear)
       : 0;
@@ -51,7 +53,14 @@ export const usRules: CountryRules = {
     // MID benefit is a tax SAVING for the buyer → negative cash effect.
     return {
       netCashEffect: -midBenefit,
-      breakdown: { deductibleInterest, saltCapped, itemized, standard, midBenefit },
+      breakdown: {
+        deductibleInterest,
+        stateIncomeTax,
+        saltCapped,
+        itemized,
+        standard,
+        midBenefit,
+      },
     };
   },
   annualPortfolioDrag: (): AnnualPortfolioDragResult => ({

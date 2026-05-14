@@ -92,18 +92,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 function Header() {
   return (
     <header className="border-b">
-      <div className="container flex h-14 items-center justify-between">
-        <Link href="/" className="font-semibold">
+      <div className="container flex h-14 items-center justify-between gap-2">
+        <Link href="/" className="font-semibold shrink-0">
           Rent vs Buy
         </Link>
-        <nav className="flex items-center gap-4 text-sm">
-          <Link href="/us" className="hover:underline">🇺🇸 US</Link>
-          <Link href="/nl" className="hover:underline">🇳🇱 NL</Link>
-          <Link href="/it" className="hover:underline">🇮🇹 IT</Link>
-          <Link href="/methodology" className="text-muted-foreground hover:underline">
+        <nav className="flex items-center gap-2 text-sm sm:gap-4">
+          <Link href="/us" className="hover:underline" aria-label="United States">
+            <span className="sm:hidden">🇺🇸</span>
+            <span className="hidden sm:inline">🇺🇸 US</span>
+          </Link>
+          <Link href="/nl" className="hover:underline" aria-label="Netherlands">
+            <span className="sm:hidden">🇳🇱</span>
+            <span className="hidden sm:inline">🇳🇱 NL</span>
+          </Link>
+          <Link href="/it" className="hover:underline" aria-label="Italy">
+            <span className="sm:hidden">🇮🇹</span>
+            <span className="hidden sm:inline">🇮🇹 IT</span>
+          </Link>
+          <Link
+            href="/methodology"
+            className="hidden text-muted-foreground hover:underline sm:inline"
+          >
             Methodology
           </Link>
-          <Link href="/about" className="text-muted-foreground hover:underline">
+          <Link
+            href="/about"
+            className="hidden text-muted-foreground hover:underline sm:inline"
+          >
             About
           </Link>
           <ModeToggle />

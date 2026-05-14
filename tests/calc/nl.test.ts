@@ -4,6 +4,17 @@ import type { NLInputs } from "@/lib/calc";
 import { nlRules } from "@/lib/calc/nl/rules";
 import { emptyBucket, contribute } from "@/lib/calc/core/portfolio";
 
+const baseCtx = (yearIndex: number) => ({
+  yearIndex,
+  interestPaidYear: 0,
+  principalPaidYear: 0,
+  avgLoanBalanceYear: 0,
+  endOfYearLoanBalance: 0,
+  endOfYearHomeValue: 0,
+  propertyTaxYear: 0,
+  pmiYear: 0,
+});
+
 describe("NL module", () => {
   it("HRA refund: marginal=0.50, ceiling=0.3697 → ceiling caps the deduction", () => {
     const input: NLInputs = {
@@ -23,13 +34,14 @@ describe("NL module", () => {
   });
 
   it("EWF add-back: WOZ × ewfLow × marginal", () => {
-    // Pure rules-level check (avoid sim noise).
+    // Pure rules-level check (avoid sim noise). interestOnly disables HRA AND
+    // the year-1 one-off mortgage-cost deduction, so EWF is the only term.
     const input: NLInputs = {
       ...nlDefaults(),
       wozValue: 500_000,
       marginalRate: 0.4,
       ewfRateLow: 0.0035,
-      interestOnly: true, // no HRA
+      interestOnly: true,
     };
     const res = nlRules.annualBuyTax(input, {
       yearIndex: 1,
@@ -43,6 +55,44 @@ describe("NL module", () => {
     });
     // EWF = 500_000 × 0.0035 = 1750; addBack = 0.4 × 1750 = 700
     expect(res.netCashEffect).toBeCloseTo(700, 4);
+  });
+
+  it("year-1 one-off: notary + NHG deductible at marginal rate (annuity only)", () => {
+    const input: NLInputs = {
+      ...nlDefaults(),
+      homePrice: 400_000,
+      marginalRate: 0.4,
+      notaryAdvisorPct: 0.015, // 6000
+      notaryDeductiblePortion: 0.6, // 3600 deductible
+      nhg: true,
+      nhgThreshold: 435_000,
+      nhgPremiumPct: 0.006,
+      downPaymentPct: 0.1, // loan = 360_000 → NHG premium = 2160
+      interestOnly: false,
+    };
+    const res = nlRules.annualBuyTax(input, {
+      yearIndex: 1,
+      interestPaidYear: 0, // isolate the one-off
+      principalPaidYear: 0,
+      avgLoanBalanceYear: 0,
+      endOfYearLoanBalance: 0,
+      endOfYearHomeValue: 400_000,
+      propertyTaxYear: 0,
+      pmiYear: 0,
+    });
+    // deductibleClosing = 3600 + 2160 = 5760; refund = 0.4 × 5760 = 2304
+    // EWF on WOZ=nlDefaults.wozValue 450000 = 1575, addBack 0.4×1575=630
+    // netCashEffect = -2304 + 630 = -1674
+    expect(res.breakdown.oneOffDeduction).toBeCloseTo(2304, 4);
+    expect(res.netCashEffect).toBeCloseTo(-1674, 4);
+  });
+
+  it("year-2 has no one-off deduction", () => {
+    const input: NLInputs = { ...nlDefaults() };
+    const yr1 = nlRules.annualBuyTax(input, baseCtx(1));
+    const yr2 = nlRules.annualBuyTax(input, baseCtx(2));
+    expect(yr1.breakdown.oneOffDeduction).toBeGreaterThan(0);
+    expect(yr2.breakdown.oneOffDeduction).toBe(0);
   });
 
   it("interestOnly product disables HRA", () => {

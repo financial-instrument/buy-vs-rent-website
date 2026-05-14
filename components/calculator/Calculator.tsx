@@ -13,6 +13,13 @@ import { AdSense } from "@/components/ads/AdSense";
 import { useCalcStore } from "./store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
 
 const NetWorthChart = dynamic(
   () => import("./NetWorthChart").then((m) => m.NetWorthChart),
@@ -60,8 +67,8 @@ export function Calculator({ country, currency }: { country: Country; currency: 
   return (
     <div className="grid gap-6 md:grid-cols-[1fr_320px]">
       <div className="grid gap-4">
-        <header className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">
+        <header className="flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-xl font-bold sm:text-2xl">
             {FLAGS[country]} Rent vs Buy in {NAMES[country]}
           </h1>
           <ShareLink inputs={inputs} />
@@ -89,7 +96,7 @@ export function Calculator({ country, currency }: { country: Country; currency: 
 
         <Card>
           <CardHeader>
-            <CardTitle>Monthly cost composition (mid-horizon)</CardTitle>
+            <CardTitle>Monthly cost composition by year</CardTitle>
           </CardHeader>
           <CardContent>
             <MonthlyCostChart result={result} currency={currency} />
@@ -98,7 +105,34 @@ export function Calculator({ country, currency }: { country: Country; currency: 
 
         <Card>
           <CardHeader>
-            <CardTitle>Sensitivity (rate × appreciation)</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              Sensitivity (rate × appreciation)
+              <TooltipProvider delayDuration={150}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      aria-label="What does sensitivity mean?"
+                      className="inline-flex h-4 w-4 items-center justify-center text-muted-foreground hover:text-foreground focus:outline-none focus:ring-1 focus:ring-ring rounded"
+                    >
+                      <Info className="h-3.5 w-3.5" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <div className="font-semibold">What is sensitivity?</div>
+                    <div className="mt-1 leading-snug">
+                      It re-runs the simulation across a grid of mortgage rates
+                      (rows) and home appreciation rates (columns), holding every
+                      other input fixed. Each cell shows <strong>buy − rent net
+                      worth</strong> at your chosen horizon, so you can see how
+                      robust the outcome is to small changes in the two
+                      assumptions you control least. Green favours buying, red
+                      favours renting; darker colour = larger gap.
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <details className="group">

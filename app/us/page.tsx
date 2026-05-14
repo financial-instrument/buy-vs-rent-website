@@ -29,7 +29,7 @@ export default function USPage() {
   return (
     <>
       <JsonLd data={schema} />
-      <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pb-2">
+      <section className="prose prose-sm dark:prose-invert max-w-none pb-2">
         <p>
           Compare renting and buying in the US after taxes — the mortgage interest
           deduction, the SALT cap on property and state-local taxes, PMI while LTV is
@@ -41,7 +41,7 @@ export default function USPage() {
       <Suspense fallback={<CalculatorSkeleton />}>
         <Calculator country="us" currency="USD" />
       </Suspense>
-      <section className="prose prose-sm dark:prose-invert mx-auto max-w-3xl pt-10">
+      <section className="prose prose-sm dark:prose-invert max-w-none pt-10">
         <h2>How this US calculator works</h2>
         <p>
           The US version models a fixed-rate annuity mortgage, a year-by-year

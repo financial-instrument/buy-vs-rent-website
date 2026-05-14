@@ -131,6 +131,14 @@ export const GLOSSARY: Record<string, GlossaryEntry> = {
     term: "Mutuo deduction cap",
     body: "The 19% credit applies to at most €4,000 of interest per year. Ceiling above which extra interest no longer reduces tax.",
   },
+  mutuoStampTax: {
+    term: "Imposta sostitutiva sul mutuo",
+    body: "Stamp tax levied at mortgage origination. 0.25% of the loan amount for prima casa, 2% for seconda casa. Paid at closing, not deductible.",
+  },
+  notaryDeductible: {
+    term: "Notary/advisor — deductible portion",
+    body: "Fraction of the notary + advisor + valuation bundle attributable to the mortgage deed (vs the transfer deed). Mortgage-related closing costs — including the NHG premium — are deductible from Box 1 income in the year of purchase. Default 0.6.",
+  },
 };
 
 export function lookup(id: string): GlossaryEntry | undefined {

@@ -77,6 +77,15 @@ export default function AboutPage() {
         and the <a href="/terms">Terms</a> for the obligatory disclaimer that this is
         an educational tool and not financial advice.
       </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions, bug reports, suggestions for additional tax rules to model, or
+        corrections to the math — email{" "}
+        <a href="mailto:financial-instruments@proton.me">
+          financial-instruments@proton.me
+        </a>.
+      </p>
     </article>
   );
 }

@@ -35,22 +35,6 @@ export function Summary({ result, currency }: { result: SimulationResult; curren
             </p>
           )}
         </div>
-        <div className="border-t pt-3">
-          <p className="text-xs text-muted-foreground">
-            Buyer pays{" "}
-            <strong className="text-foreground">
-              {formatCurrency(result.yearZero.closingCostsPenalty, currency)}
-            </strong>{" "}
-            in closing costs at t=0 (agent / notary / transfer / registration tax). That's
-            the gap you see at year 0 on the chart — the buyer carries it as a handicap
-            into year 1.
-          </p>
-        </div>
-        <p className="text-[11px] text-muted-foreground">
-          Buy net worth is the accounting view: home equity plus portfolio,{" "}
-          <strong>not</strong> reduced by sale-side transaction costs (~6–10% in agent/notary/transfer
-          fees if you sold today).
-        </p>
       </CardContent>
     </Card>
   );

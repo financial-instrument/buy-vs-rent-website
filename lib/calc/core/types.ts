@@ -8,6 +8,7 @@ export interface UniversalInputs {
   termYears: number;
   horizonYears: number;
   closingCostsPct: number; // 0..1, of price
+  saleCostsPct: number; // 0..1, of home value at sale (subtracted from buy net worth)
   appreciationPct: number; // annual nominal
   maintenancePct: number; // annual % of value
   insuranceAnnual: number;
@@ -23,7 +24,8 @@ export interface UniversalInputs {
 export interface USInputs extends UniversalInputs {
   country: "us";
   filing: "single" | "mfj";
-  stateLocalIncomeRate: number; // 0..1
+  householdIncomeAnnual: number; // drives the state-income leg of SALT
+  stateLocalIncomeRate: number; // 0..1, applied to householdIncomeAnnual
   federalMarginalRate: number; // 0..1
   propertyTaxRate: number; // 0..1 of value
   pmiRate: number; // 0..1 of original loan
@@ -56,6 +58,10 @@ export interface NLInputs extends UniversalInputs {
   firstTimeBuyer: boolean;
   firstTimeBuyerThreshold: number;
   notaryAdvisorPct: number; // ~0.015
+  // Fraction of (notary + advisor + valuation) that is mortgage-related and
+  // therefore deductible from Box 1 income in the year of purchase. NHG
+  // premium is always deductible in full.
+  notaryDeductiblePortion: number; // 0..1, default ~0.6
   nhg: boolean;
   nhgThreshold: number;
   nhgPremiumPct: number;
@@ -75,6 +81,7 @@ export interface ITInputs extends UniversalInputs {
   tariAnnual: number;
   registrationTaxRate: number; // 0.02 prima casa
   fixedIpotecariaCatastale: number; // 200
+  mutuoStampTaxRate: number; // 0.0025 — imposta sostitutiva sul mutuo, prima casa
   bolloRate: number; // 0.002
   mutuoDeductionRate: number; // 0.19
   mutuoInterestCap: number; // 4000
@@ -124,7 +131,7 @@ export interface YearlySnapshot {
   homeValue: number;
   buyPortfolio: number;
   rentPortfolio: number;
-  buyNetWorth: number; // (V - L) + buyPortfolio (no sale costs/CGT in v1)
+  buyNetWorth: number; // (V - L - saleCosts) + buyPortfolio
   rentNetWorth: number; // rentPortfolio − unrealizedCGT
   rentUnrealizedCGT: number;
   annualBuyTaxEffect: number; // negative = refund (reduces outflow)

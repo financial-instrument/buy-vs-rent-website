@@ -13,6 +13,7 @@ const COMMON_KEYS: Array<[keyof CountryInputs, string]> = [
   ["termYears", "tm"],
   ["horizonYears", "hz"],
   ["closingCostsPct", "cc"],
+  ["saleCostsPct", "sl"],
   ["appreciationPct", "ap"],
   ["maintenancePct", "mn"],
   ["insuranceAnnual", "in"],
@@ -27,6 +28,7 @@ const COMMON_KEYS: Array<[keyof CountryInputs, string]> = [
 
 const US_KEYS: Array<[keyof USInputs, string]> = [
   ["filing", "fl"],
+  ["householdIncomeAnnual", "hi"],
   ["stateLocalIncomeRate", "si"],
   ["federalMarginalRate", "fr"],
   ["propertyTaxRate", "pt"],
@@ -58,6 +60,7 @@ const NL_KEYS: Array<[keyof NLInputs, string]> = [
   ["firstTimeBuyer", "fb"],
   ["firstTimeBuyerThreshold", "ft"],
   ["notaryAdvisorPct", "na"],
+  ["notaryDeductiblePortion", "nd"],
   ["nhg", "nh"],
   ["nhgThreshold", "nt"],
   ["nhgPremiumPct", "np"],
@@ -75,6 +78,7 @@ const IT_KEYS: Array<[keyof ITInputs, string]> = [
   ["tariAnnual", "ta"],
   ["registrationTaxRate", "rg"],
   ["fixedIpotecariaCatastale", "ic"],
+  ["mutuoStampTaxRate", "ms"],
   ["bolloRate", "bo"],
   ["mutuoDeductionRate", "md"],
   ["mutuoInterestCap", "mc"],

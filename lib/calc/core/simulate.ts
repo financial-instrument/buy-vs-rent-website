@@ -217,7 +217,9 @@ export function simulate(input: CountryInputs, rules: CountryRules): SimulationR
       // Build snapshot
       const cgt = rules.unrealizedCGT(input, buyBucket, rentBucket);
       const rentNetWorth = bucketTotal(rentBucket) - cgt.rentCGT;
-      const buyNetWorth = (homeValue - loanBalance) + bucketTotal(buyBucket);
+      const saleCosts = homeValue * input.saleCostsPct;
+      const buyNetWorth =
+        homeValue - loanBalance - saleCosts + bucketTotal(buyBucket);
 
       yearly.push({
         year: yearIndex1,
@@ -255,8 +257,9 @@ export function simulate(input: CountryInputs, rules: CountryRules): SimulationR
 
   // t=0 net worths: buyer holds downPayment in home equity; renter holds W0 invested.
   // The closing costs are the friction the buyer eats up front (no portfolio yet).
+  // If sale costs are configured, the buyer also absorbs them on the as-if-sold equity.
   const yearZero = {
-    buyNetWorth: downPayment,
+    buyNetWorth: downPayment - input.homePrice * input.saleCostsPct,
     rentNetWorth: W0,
     closingCostsPenalty: closing.closingTotal,
   };

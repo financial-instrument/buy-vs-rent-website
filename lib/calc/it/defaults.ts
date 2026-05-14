@@ -8,6 +8,7 @@ export const itDefaults = (): ITInputs => ({
   termYears: 25,
   horizonYears: 10,
   closingCostsPct: 0.06, // not used directly; broken out below
+  saleCostsPct: 0,
   appreciationPct: 0.02,
   maintenancePct: 0.01,
   insuranceAnnual: 300,
@@ -25,6 +26,7 @@ export const itDefaults = (): ITInputs => ({
   tariAnnual: 300,
   registrationTaxRate: 0.02,
   fixedIpotecariaCatastale: 100, // €50 + €50 prima casa, private seller
+  mutuoStampTaxRate: 0.0025, // imposta sostitutiva sul mutuo, prima casa
   bolloRate: 0.002,
   mutuoDeductionRate: 0.19,
   mutuoInterestCap: 4_000,

@@ -8,6 +8,7 @@ export const nlDefaults = (): NLInputs => ({
   termYears: 30,
   horizonYears: 10,
   closingCostsPct: 0.05, // not used directly; transferTax + notary computed separately
+  saleCostsPct: 0,
   appreciationPct: 0.03,
   maintenancePct: 0.01,
   insuranceAnnual: 600,
@@ -33,6 +34,7 @@ export const nlDefaults = (): NLInputs => ({
   firstTimeBuyer: false,
   firstTimeBuyerThreshold: 525_000,
   notaryAdvisorPct: 0.015,
+  notaryDeductiblePortion: 0.6,
   nhg: false,
   nhgThreshold: 435_000,
   nhgPremiumPct: 0.006,
