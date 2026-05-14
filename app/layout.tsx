@@ -48,12 +48,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/*
+          AdSense verification snippet. Google's site-review crawler fetches
+          the raw HTML and grep for this exact script tag in <head>, so we
+          render it via a plain <script> element rather than next/script (which
+          would inject it client-side after hydration and miss the crawler).
+        */}
         {ADSENSE_CLIENT && (
-          <Script
+          // eslint-disable-next-line @next/next/no-sync-scripts
+          <script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
             crossOrigin="anonymous"
-            strategy="afterInteractive"
           />
         )}
         {PLAUSIBLE_DOMAIN && (
