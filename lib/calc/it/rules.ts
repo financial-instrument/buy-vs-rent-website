@@ -25,10 +25,11 @@ export const itRules: CountryRules = {
     // Imposta sostitutiva sul mutuo: 0.25% × loan amount (prima casa).
     // Stamp tax — not deductible, paid at mortgage origination.
     const mutuoStampTax = i.mutuoStampTaxRate * loanPrincipal;
-    const total = registro + ipoCat + notary + agent + mutuoStampTax;
+    const closingFlat = i.closingCostsFlat;
+    const total = registro + ipoCat + notary + agent + mutuoStampTax + closingFlat;
     return {
       closingTotal: total,
-      breakdown: { registro, ipoCat, notary, agent, mutuoStampTax },
+      breakdown: { registro, ipoCat, notary, agent, mutuoStampTax, closingFlat },
     };
   },
   monthlyExtras: (input): MonthlyExtras => {

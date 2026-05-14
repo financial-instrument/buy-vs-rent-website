@@ -8,6 +8,7 @@ export const nlSchema = z.object({
   termYears: z.number().int().positive().max(40),
   horizonYears: z.number().int().positive().max(40),
   closingCostsPct: z.number().min(0).max(0.2),
+  closingCostsFlat: z.number().min(0),
   saleCostsPct: z.number().min(0).max(0.2),
   appreciationPct: z.number().min(-0.2).max(0.5),
   maintenancePct: z.number().min(0).max(0.1),

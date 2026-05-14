@@ -18,8 +18,12 @@ export const usRules: CountryRules = {
   effectiveRate: (input: CountryInputs) => input.mortgageRate,
   oneTimeCosts: (input: CountryInputs): OneTimeCosts => {
     const i = input as USInputs;
-    const closing = i.homePrice * i.closingCostsPct;
-    return { closingTotal: closing, breakdown: { closing } };
+    const closingPct = i.homePrice * i.closingCostsPct;
+    const closingFlat = i.closingCostsFlat;
+    return {
+      closingTotal: closingPct + closingFlat,
+      breakdown: { closingPct, closingFlat },
+    };
   },
   monthlyExtras: (): MonthlyExtras => ({ countryAdj: 0 }),
   monthlyPropertyTax: (input, ctx): number => {

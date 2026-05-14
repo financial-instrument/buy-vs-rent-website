@@ -8,6 +8,7 @@ export const itDefaults = (): ITInputs => ({
   termYears: 25,
   horizonYears: 10,
   closingCostsPct: 0.06, // not used directly; broken out below
+  closingCostsFlat: 0,
   saleCostsPct: 0,
   appreciationPct: 0.02,
   maintenancePct: 0.01,

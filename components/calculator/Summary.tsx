@@ -8,6 +8,7 @@ export function Summary({ result, currency }: { result: SimulationResult; curren
   const winner = result.winner;
   const horizon = result.inputs.horizonYears;
   const delta = Math.abs(result.delta);
+  const closingTotal = result.yearZero.closingCostsPenalty;
 
   return (
     <Card className="sticky top-4">
@@ -35,6 +36,17 @@ export function Summary({ result, currency }: { result: SimulationResult; curren
             </p>
           )}
         </div>
+        {closingTotal > 0 && (
+          <p className="rounded border border-amber-200 bg-amber-50 p-2 text-[11px] leading-snug text-amber-900">
+            <strong>How closing costs show up:</strong> Buy NW is the accounting
+            view (home value − loan + portfolio); the{" "}
+            {formatCurrency(closingTotal, currency)} you spend at closing
+            (overbid, notary, fees, transfer tax) is{" "}
+            <em>not</em> subtracted from Buy NW directly. Instead it appears as
+            a t=0 head-start the renter invests — so raising closing costs
+            always shifts the comparison toward renting, never toward buying.
+          </p>
+        )}
       </CardContent>
     </Card>
   );

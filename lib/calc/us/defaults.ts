@@ -8,6 +8,7 @@ export const usDefaults = (): USInputs => ({
   termYears: 30,
   horizonYears: 10,
   closingCostsPct: 0.03,
+  closingCostsFlat: 0,
   saleCostsPct: 0,
   appreciationPct: 0.03,
   maintenancePct: 0.01,

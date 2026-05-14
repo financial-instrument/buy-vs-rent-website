@@ -4,6 +4,8 @@ import Script from "next/script";
 import { SITE_URL } from "@/lib/site";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
+import { CountryNav } from "@/components/CountryNav";
+import { Suspense } from "react";
 import "./globals.css";
 
 // Hardcoded as the default so the AdSense verification snippet ships on every
@@ -106,18 +108,26 @@ function Header() {
           Rent vs Buy
         </Link>
         <nav className="flex items-center gap-2 text-sm sm:gap-4">
-          <Link href="/us" className="hover:underline" aria-label="United States">
-            <span className="sm:hidden">🇺🇸</span>
-            <span className="hidden sm:inline">🇺🇸 US</span>
-          </Link>
-          <Link href="/nl" className="hover:underline" aria-label="Netherlands">
-            <span className="sm:hidden">🇳🇱</span>
-            <span className="hidden sm:inline">🇳🇱 NL</span>
-          </Link>
-          <Link href="/it" className="hover:underline" aria-label="Italy">
-            <span className="sm:hidden">🇮🇹</span>
-            <span className="hidden sm:inline">🇮🇹 IT</span>
-          </Link>
+          <Suspense
+            fallback={
+              <>
+                <Link href="/us" className="hover:underline" aria-label="United States">
+                  <span className="sm:hidden">🇺🇸</span>
+                  <span className="hidden sm:inline">🇺🇸 US</span>
+                </Link>
+                <Link href="/nl" className="hover:underline" aria-label="Netherlands">
+                  <span className="sm:hidden">🇳🇱</span>
+                  <span className="hidden sm:inline">🇳🇱 NL</span>
+                </Link>
+                <Link href="/it" className="hover:underline" aria-label="Italy">
+                  <span className="sm:hidden">🇮🇹</span>
+                  <span className="hidden sm:inline">🇮🇹 IT</span>
+                </Link>
+              </>
+            }
+          >
+            <CountryNav />
+          </Suspense>
           <Link
             href="/methodology"
             className="hidden text-muted-foreground hover:underline sm:inline"

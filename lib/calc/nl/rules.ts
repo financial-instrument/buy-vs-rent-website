@@ -27,10 +27,11 @@ export const nlRules: CountryRules = {
     const notary = i.notaryAdvisorPct * i.homePrice;
     const nhgPremium =
       i.nhg && i.homePrice <= i.nhgThreshold ? i.nhgPremiumPct * loanPrincipal : 0;
-    const total = transferTax + notary + nhgPremium;
+    const closingFlat = i.closingCostsFlat;
+    const total = transferTax + notary + nhgPremium + closingFlat;
     return {
       closingTotal: total,
-      breakdown: { transferTax, notary, nhgPremium },
+      breakdown: { transferTax, notary, nhgPremium, closingFlat },
     };
   },
   monthlyExtras: (): MonthlyExtras => ({ countryAdj: 0 }),

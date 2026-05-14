@@ -13,13 +13,14 @@ import { AdSense } from "@/components/ads/AdSense";
 import { useCalcStore } from "./store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, RotateCcw } from "lucide-react";
 
 const NetWorthChart = dynamic(
   () => import("./NetWorthChart").then((m) => m.NetWorthChart),
@@ -71,7 +72,26 @@ export function Calculator({ country, currency }: { country: Country; currency: 
           <h1 className="text-xl font-bold sm:text-2xl">
             {FLAGS[country]} Rent vs Buy in {NAMES[country]}
           </h1>
-          <ShareLink inputs={inputs} />
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                const defaults =
+                  country === "us"
+                    ? usDefaults()
+                    : country === "nl"
+                      ? nlDefaults()
+                      : itDefaults();
+                setInputs(defaults);
+                window.history.replaceState(null, "", window.location.pathname);
+              }}
+            >
+              <RotateCcw className="mr-2 h-4 w-4" />
+              Reset to defaults
+            </Button>
+            <ShareLink inputs={inputs} />
+          </div>
         </header>
 
         <Card>

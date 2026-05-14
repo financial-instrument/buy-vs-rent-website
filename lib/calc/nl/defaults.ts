@@ -8,6 +8,7 @@ export const nlDefaults = (): NLInputs => ({
   termYears: 30,
   horizonYears: 10,
   closingCostsPct: 0.05, // not used directly; transferTax + notary computed separately
+  closingCostsFlat: 0,
   saleCostsPct: 0,
   appreciationPct: 0.03,
   maintenancePct: 0.01,

@@ -26,7 +26,8 @@ export function MonthlyCostChart({
   // 12-month averages for that year).
   const yearlyAvg: Array<{
     year: number;
-    "P&I": number;
+    Interest: number;
+    Principal: number;
     Taxes: number;
     Insurance: number;
     HOA: number;
@@ -41,7 +42,8 @@ export function MonthlyCostChart({
     const n = months.length;
     const sum = months.reduce(
       (acc, m) => {
-        acc.pi += m.components.pi;
+        acc.interest += m.components.interest;
+        acc.principal += m.components.principal;
         acc.propertyTax += m.components.propertyTax;
         acc.insurance += m.components.insurance;
         acc.hoa += m.components.hoa;
@@ -50,11 +52,21 @@ export function MonthlyCostChart({
         acc.rent += m.monthlyRent;
         return acc;
       },
-      { pi: 0, propertyTax: 0, insurance: 0, hoa: 0, maintenance: 0, pmi: 0, rent: 0 },
+      {
+        interest: 0,
+        principal: 0,
+        propertyTax: 0,
+        insurance: 0,
+        hoa: 0,
+        maintenance: 0,
+        pmi: 0,
+        rent: 0,
+      },
     );
     yearlyAvg.push({
       year: y,
-      "P&I": Math.round(sum.pi / n),
+      Interest: Math.round(sum.interest / n),
+      Principal: Math.round(sum.principal / n),
       Taxes: Math.round(sum.propertyTax / n),
       Insurance: Math.round(sum.insurance / n),
       HOA: Math.round(sum.hoa / n),
@@ -81,12 +93,14 @@ export function MonthlyCostChart({
             labelFormatter={(l) => `Year ${l}`}
           />
           <Legend wrapperStyle={{ fontSize: 12 }} />
-          <Bar stackId="buy" dataKey="P&I" fill="#0ea5e9" isAnimationActive={false} />
+          {/* Buyer stack: pure costs (warm) at bottom, principal (equity-building) on top */}
+          <Bar stackId="buy" dataKey="Interest" fill="#f97316" isAnimationActive={false} />
           <Bar stackId="buy" dataKey="Taxes" fill="#f59e0b" isAnimationActive={false} />
           <Bar stackId="buy" dataKey="Insurance" fill="#a78bfa" isAnimationActive={false} />
           <Bar stackId="buy" dataKey="HOA" fill="#94a3b8" isAnimationActive={false} />
-          <Bar stackId="buy" dataKey="Maintenance" fill="#10b981" isAnimationActive={false} />
+          <Bar stackId="buy" dataKey="Maintenance" fill="#fbbf24" isAnimationActive={false} />
           <Bar stackId="buy" dataKey="PMI" fill="#ef4444" isAnimationActive={false} />
+          <Bar stackId="buy" dataKey="Principal" fill="#10b981" isAnimationActive={false} />
           <Bar stackId="rent" dataKey="Rent" fill="#3b82f6" isAnimationActive={false} />
         </BarChart>
       </ResponsiveContainer>

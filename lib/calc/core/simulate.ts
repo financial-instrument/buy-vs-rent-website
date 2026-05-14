@@ -120,9 +120,13 @@ export function simulate(input: CountryInputs, rules: CountryRules): SimulationR
 
     // Symmetric differential
     const delta = buyOutflow - rentOutflow;
+    let buyInvest = 0;
+    let rentInvest = 0;
     if (delta > 0) {
+      rentInvest = delta;
       rentBucket = contribute(rentBucket, delta, input.equitySplit);
     } else if (delta < 0) {
+      buyInvest = -delta;
       buyBucket = contribute(buyBucket, -delta, input.equitySplit);
     }
 
@@ -149,12 +153,16 @@ export function simulate(input: CountryInputs, rules: CountryRules): SimulationR
       rentBondBasis: rentBucket.bondBasis,
       components: {
         pi: split.payment,
+        principal: split.principal,
+        interest: split.interest,
         propertyTax,
         insurance,
         hoa,
         maintenance,
         pmi,
         countryAdj: extras.countryAdj,
+        buyInvest,
+        rentInvest,
       },
     });
 

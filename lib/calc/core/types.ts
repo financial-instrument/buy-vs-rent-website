@@ -8,6 +8,7 @@ export interface UniversalInputs {
   termYears: number;
   horizonYears: number;
   closingCostsPct: number; // 0..1, of price
+  closingCostsFlat: number; // absolute amount: overbid, notary fees not captured by itemized rates, valuation, moving, etc.
   saleCostsPct: number; // 0..1, of home value at sale (subtracted from buy net worth)
   appreciationPct: number; // annual nominal
   maintenancePct: number; // annual % of value
@@ -113,15 +114,22 @@ export interface MonthlyState {
   buyBondBasis: number;
   rentEquityBasis: number;
   rentBondBasis: number;
-  // Monthly breakdown of buy outflow (for display / charts)
+  // Monthly breakdown of buy outflow (for display / charts).
+  // pi = principal + interest (full mortgage payment); kept for back-compat consumers.
+  // buyInvest / rentInvest = amount contributed to that side's portfolio this month
+  // (whichever side has lower outflow invests the differential).
   components: {
     pi: number;
+    principal: number;
+    interest: number;
     propertyTax: number;
     insurance: number;
     hoa: number;
     maintenance: number;
     pmi: number;
     countryAdj: number;
+    buyInvest: number;
+    rentInvest: number;
   };
 }
 

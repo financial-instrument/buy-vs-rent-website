@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -35,29 +36,37 @@ export function NumberField({
   prefix,
   hint,
 }: NumberFieldProps) {
+  // Local draft string lets the user clear all digits (incl. empty/partial like ".") without
+  // losing focus. We commit the numeric to the parent whenever the draft parses cleanly; on
+  // blur, the draft drops and the input snaps back to the parent's value.
+  const [draft, setDraft] = useState<string | null>(null);
+  const display = draft !== null ? draft : Number.isFinite(value) ? String(value) : "";
   return (
     <div className="grid gap-1">
       <InfoLabel text={label} glossaryId={glossaryId} />
+      <div className="flex items-center gap-1.5">
+        {prefix && <span className="text-xs text-muted-foreground">{prefix}</span>}
+        <Input
+          type="number"
+          value={display}
+          step={step}
+          min={min}
+          max={max}
+          onChange={(e) => {
+            const raw = e.target.value;
+            setDraft(raw);
+            const v = parseFloat(raw);
+            if (!Number.isNaN(v)) onChange(v);
+          }}
+          onBlur={() => setDraft(null)}
+        />
+        {suffix && <span className="text-xs text-muted-foreground">{suffix}</span>}
+      </div>
       {hint && (
         <span className="text-[11px] leading-tight text-muted-foreground">
           {hint}
         </span>
       )}
-      <div className="flex items-center gap-1.5">
-        {prefix && <span className="text-xs text-muted-foreground">{prefix}</span>}
-        <Input
-          type="number"
-          value={Number.isFinite(value) ? value : ""}
-          step={step}
-          min={min}
-          max={max}
-          onChange={(e) => {
-            const v = parseFloat(e.target.value);
-            if (!Number.isNaN(v)) onChange(v);
-          }}
-        />
-        {suffix && <span className="text-xs text-muted-foreground">{suffix}</span>}
-      </div>
     </div>
   );
 }

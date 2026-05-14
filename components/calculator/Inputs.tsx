@@ -116,12 +116,33 @@ export function Inputs() {
               hint={`Must be ≤ term (${inputs.termYears} yr)`}
             />
           </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <PercentField
-              label="Buy-side closing costs (% of price)"
-              value={inputs.closingCostsPct}
-              onChange={(v) => set("closingCostsPct", v)}
-              step={0.1}
+          <div
+            className={
+              inputs.country === "us"
+                ? "grid grid-cols-1 gap-4 sm:grid-cols-3"
+                : "grid grid-cols-1 gap-4 sm:grid-cols-2"
+            }
+          >
+            {inputs.country === "us" && (
+              <PercentField
+                label="Closing costs (% of price)"
+                value={inputs.closingCostsPct}
+                onChange={(v) => set("closingCostsPct", v)}
+                step={0.1}
+                hint="Title, escrow, lender fees, etc. Combined with the flat amount."
+              />
+            )}
+            <NumberField
+              label="Closing costs (flat)"
+              value={inputs.closingCostsFlat}
+              onChange={(v) => set("closingCostsFlat", v)}
+              step={500}
+              min={0}
+              hint={
+                inputs.country === "us"
+                  ? "Overbid, moving, anything not captured by the % above."
+                  : "Overbid, valuation, moving, extra notary/advisor fees, anything beyond the itemized transfer/notary/registration costs below."
+              }
             />
             <PercentField
               label="Sale costs (% of home value)"
@@ -153,7 +174,7 @@ export function Inputs() {
       <AccordionItem value="rent">
         <AccordionTrigger>Rent</AccordionTrigger>
         <AccordionContent className="grid gap-4">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <NumberField
               label="Monthly rent (all-in)"
               value={inputs.monthlyRent}
@@ -163,13 +184,6 @@ export function Inputs() {
               label="Annual rent inflation"
               value={inputs.rentInflationPct}
               onChange={(v) => set("rentInflationPct", v)}
-              step={0.1}
-            />
-            <PercentField
-              label="CPI (display only)"
-              glossaryId="cpi"
-              value={inputs.cpiPct}
-              onChange={(v) => set("cpiPct", v)}
               step={0.1}
             />
           </div>

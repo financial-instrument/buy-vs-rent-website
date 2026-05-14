@@ -13,6 +13,7 @@ const COMMON_KEYS: Array<[keyof CountryInputs, string]> = [
   ["termYears", "tm"],
   ["horizonYears", "hz"],
   ["closingCostsPct", "cc"],
+  ["closingCostsFlat", "cf"],
   ["saleCostsPct", "sl"],
   ["appreciationPct", "ap"],
   ["maintenancePct", "mn"],
