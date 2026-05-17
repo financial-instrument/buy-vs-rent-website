@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { nlDefaults, runSimulation } from "@/lib/calc";
 import type { NLInputs } from "@/lib/calc";
 import { nlRules } from "@/lib/calc/nl/rules";
-import { emptyBucket, contribute } from "@/lib/calc/core/portfolio";
+import { emptyBucket, contribute, type BucketState } from "@/lib/calc/core/portfolio";
 
 const baseCtx = (yearIndex: number) => ({
   yearIndex,
@@ -150,5 +150,112 @@ describe("NL module", () => {
       nhgRateReductionBps: 50,
     };
     expect(nlRules.effectiveRate(input)).toBeCloseTo(0.045, 6);
+  });
+});
+
+describe("NL Box 3 regimes", () => {
+  // 150k portfolio, 100k cost basis → 50k unrealized gain. Threshold 50k.
+  const base = (): NLInputs => ({
+    ...nlDefaults(),
+    box3Threshold: 50_000,
+    box3ThresholdGrowthPct: 0,
+    partnered: false,
+    box3TaxRate: 0.36,
+    box3DeemedYield: 0.06,
+    box3CgtRate: 0.26,
+  });
+  const rentB: BucketState = {
+    equityValue: 150_000,
+    bondValue: 0,
+    equityBasis: 100_000,
+    bondBasis: 0,
+  };
+  const ctx = { yearIndex: 1 };
+
+  it("deemed-2025: (val−threshold) × deemedYield × rate", () => {
+    const i = { ...base(), box3Mode: "deemed-2025" as const };
+    const d = nlRules.annualPortfolioDrag(i, emptyBucket(), rentB, ctx);
+    // (150000 − 50000) × 0.06 × 0.36 = 2160
+    expect(d.rentDrag).toBeCloseTo(2160, 4);
+    expect(d.buyDrag).toBe(0);
+    expect(d.markToMarketRent).toBeUndefined();
+    expect(nlRules.unrealizedCGT(i, emptyBucket(), rentB).rentCGT).toBe(0);
+  });
+
+  it("actual-2028: accrual × taxable-fraction × rate, marks to market", () => {
+    const i = { ...base(), box3Mode: "actual-2028" as const };
+    const d = nlRules.annualPortfolioDrag(i, emptyBucket(), rentB, ctx);
+    // gain 50000 × (100000/150000) above-allowance fraction × 0.36 = 12000
+    expect(d.rentDrag).toBeCloseTo(12_000, 4);
+    expect(d.markToMarketRent).toBe(true);
+    // Accrual regime levies annually → no horizon haircut (no double count).
+    expect(nlRules.unrealizedCGT(i, emptyBucket(), rentB).rentCGT).toBe(0);
+  });
+
+  it("realized-cgt: no annual drag, CGT on the gain at horizon", () => {
+    const i = { ...base(), box3Mode: "realized-cgt" as const };
+    const d = nlRules.annualPortfolioDrag(i, emptyBucket(), rentB, ctx);
+    expect(d.rentDrag).toBe(0);
+    expect(d.buyDrag).toBe(0);
+    // 50000 unrealized gain × 0.26 = 13000
+    expect(nlRules.unrealizedCGT(i, emptyBucket(), rentB).rentCGT).toBeCloseTo(13_000, 4);
+  });
+
+  it("regime is the only knob changed; mechanics hold for any scenario", () => {
+    const mk = (m: NLInputs["box3Mode"]): NLInputs => ({
+      ...nlDefaults(),
+      horizonYears: 10,
+      box3Mode: m,
+    });
+    const deemed = runSimulation(mk("deemed-2025"));
+    const accrual = runSimulation(mk("actual-2028"));
+    const cgt = runSimulation(mk("realized-cgt"));
+
+    // Default mode == deemed-2025 → unchanged behavior (regression guard).
+    expect(runSimulation({ ...nlDefaults(), horizonYears: 10 }).delta).toBeCloseTo(
+      deemed.delta,
+      6,
+    );
+
+    // Each regime yields a distinct result.
+    expect(deemed.delta).not.toBeCloseTo(accrual.delta, 2);
+    expect(deemed.delta).not.toBeCloseTo(cgt.delta, 2);
+
+    // Annual portfolio drag exists under both wealth-tax regimes, never under
+    // the realization-CGT counterfactual.
+    const annualDrag = (r: typeof deemed) =>
+      r.yearly.reduce((a, y) => a + y.annualPortfolioDrag, 0);
+    expect(annualDrag(deemed)).toBeGreaterThan(0);
+    expect(annualDrag(accrual)).toBeGreaterThan(0);
+    expect(annualDrag(cgt)).toBe(0);
+
+    // Horizon CGT haircut exists ONLY in the realization-CGT regime (no
+    // double-count under the annually-levied wealth-tax regimes).
+    expect(cgt.yearly.at(-1)!.rentUnrealizedCGT).toBeGreaterThan(0);
+    expect(deemed.yearly.at(-1)!.rentUnrealizedCGT).toBe(0);
+    expect(accrual.yearly.at(-1)!.rentUnrealizedCGT).toBe(0);
+  });
+
+  it("long horizon + no allowance: the wealth tax skews harder against the renter than a normal CGT", () => {
+    // The advocacy thesis is conditional, not universal: it bites for a
+    // sizeable portfolio compounding over a long horizon. With no tax-free
+    // allowance and 30 years, 30 annual wealth-tax hits erode far more than a
+    // single realization CGT on the gain — so the renter ends up poorer and
+    // the buy−rent gap widens under both Dutch regimes.
+    const mk = (m: NLInputs["box3Mode"]): NLInputs => ({
+      ...nlDefaults(),
+      horizonYears: 30,
+      termYears: 30,
+      box3Threshold: 0,
+      box3Mode: m,
+    });
+    const deemed = runSimulation(mk("deemed-2025"));
+    const accrual = runSimulation(mk("actual-2028"));
+    const cgt = runSimulation(mk("realized-cgt"));
+
+    expect(cgt.finalRentNetWorth).toBeGreaterThan(deemed.finalRentNetWorth);
+    expect(cgt.finalRentNetWorth).toBeGreaterThan(accrual.finalRentNetWorth);
+    expect(cgt.delta).toBeLessThan(deemed.delta);
+    expect(cgt.delta).toBeLessThan(accrual.delta);
   });
 });

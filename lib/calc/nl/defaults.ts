@@ -31,6 +31,8 @@ export const nlDefaults = (): NLInputs => ({
   box3Threshold: 57_684,
   box3DeemedYield: 0.0588, // 2025 transition deemed yield for "investments"
   box3TaxRate: 0.36,
+  box3Mode: "deemed-2025",
+  box3CgtRate: 0.26, // illustrative "normal country" realized-CGT rate (≈IT/DE)
   transferTaxRate: 0.02,
   firstTimeBuyer: false,
   firstTimeBuyerThreshold: 525_000,

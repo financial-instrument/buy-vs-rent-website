@@ -407,6 +407,29 @@ function NLTaxFields({ inputs }: { inputs: NLInputs }) {
           step={0.1}
         />
       </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <SelectField
+          label="Box 3 regime"
+          glossaryId="box3Mode"
+          value={inputs.box3Mode}
+          options={[
+            { value: "deemed-2025", label: "2025 deemed yield (current)" },
+            { value: "actual-2028", label: "2028 actual return (proposed)" },
+            { value: "realized-cgt", label: "Realized CGT (counterfactual)" },
+          ]}
+          onChange={(v) => set("box3Mode", v as NLInputs["box3Mode"])}
+        />
+        {inputs.box3Mode === "realized-cgt" && (
+          <PercentField
+            label="Realized-CGT rate"
+            glossaryId="box3Cgt"
+            value={inputs.box3CgtRate}
+            onChange={(v) => set("box3CgtRate", v)}
+            step={0.5}
+            hint="Illustrative ‘normal country’ rate. NL has no private CGT today — this is a counterfactual, not a Dutch proposal."
+          />
+        )}
+      </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <NumberField
           label="Box 3 tax-free threshold (single)"

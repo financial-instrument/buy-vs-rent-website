@@ -26,6 +26,11 @@ export interface AnnualPortfolioDragResult {
   // Tax that bleeds *out* of each portfolio at year-end (NL Box 3, IT bollo).
   buyDrag: number;
   rentDrag: number;
+  // If set, the simulator steps that side's cost basis up to market value
+  // after applying the drag (accrual tax — NL 2028). Without this, an annual
+  // tax on (value − basis) would re-tax the same gain every following year.
+  markToMarketBuy?: boolean;
+  markToMarketRent?: boolean;
   breakdown: Record<string, number>;
 }
 

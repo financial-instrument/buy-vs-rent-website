@@ -25,6 +25,13 @@ describe("URL round-trip", () => {
     expect(back).toEqual(orig);
   });
 
+  it("NL box3Mode (enum) round-trips off-default", () => {
+    const orig = { ...nlDefaults(), box3Mode: "actual-2028" as const, box3CgtRate: 0.3 };
+    const back = decode("nl", new URLSearchParams(encode(orig)));
+    expect(back.box3Mode).toBe("actual-2028");
+    expect(back.box3CgtRate).toBe(0.3);
+  });
+
   it("partial query string falls back to defaults", () => {
     const params = new URLSearchParams("hp=500000");
     const back = decode("us", params);

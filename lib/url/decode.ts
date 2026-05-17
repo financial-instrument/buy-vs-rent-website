@@ -12,7 +12,7 @@ const BOOL_FIELDS = new Set([
   "nhg",
   "interestOnly",
 ]);
-const STRING_FIELDS = new Set(["filing", "country"]);
+const STRING_FIELDS = new Set(["filing", "country", "box3Mode"]);
 const INT_FIELDS = new Set(["termYears", "horizonYears", "nhgRateReductionBps"]);
 
 function parseValue(field: string, raw: string): unknown {

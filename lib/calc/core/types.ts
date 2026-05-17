@@ -54,7 +54,15 @@ export interface NLInputs extends UniversalInputs {
   ewfHighThreshold: number; // 1_310_000
   box3Threshold: number; // 57_000 single
   box3DeemedYield: number; // ~0.06
-  box3TaxRate: number; // 0.36
+  box3TaxRate: number; // 0.36 — also the proposed 2028 vermogensaanwas rate
+  // Which Box 3 regime to simulate on the portfolio:
+  //  deemed-2025  — current transitional system: deemed yield × rate, annually.
+  //  actual-2028  — proposed vermogensaanwasbelasting: tax the year's ACTUAL
+  //                 accrual (realized + unrealized) at box3TaxRate, annually.
+  //  realized-cgt — counterfactual: no annual wealth/return tax; a conventional
+  //                 realization-based capital-gains tax (box3CgtRate) at horizon.
+  box3Mode: "deemed-2025" | "actual-2028" | "realized-cgt";
+  box3CgtRate: number; // 0..1, counterfactual realized-CGT rate (illustrative)
   transferTaxRate: number; // 0.02
   firstTimeBuyer: boolean;
   firstTimeBuyerThreshold: number;

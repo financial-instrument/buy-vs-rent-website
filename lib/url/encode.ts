@@ -57,6 +57,8 @@ const NL_KEYS: Array<[keyof NLInputs, string]> = [
   ["box3Threshold", "b3"],
   ["box3DeemedYield", "by"],
   ["box3TaxRate", "bt"],
+  ["box3Mode", "bm"],
+  ["box3CgtRate", "bx"],
   ["transferTaxRate", "tt"],
   ["firstTimeBuyer", "fb"],
   ["firstTimeBuyerThreshold", "ft"],

@@ -129,6 +129,12 @@ function Header() {
             <CountryNav />
           </Suspense>
           <Link
+            href="/box3"
+            className="hidden text-muted-foreground hover:underline sm:inline"
+          >
+            Box 3 2028
+          </Link>
+          <Link
             href="/methodology"
             className="hidden text-muted-foreground hover:underline sm:inline"
           >
@@ -140,6 +146,14 @@ function Header() {
           >
             About
           </Link>
+          <a
+            href="https://ko-fi.com/rentingbuycalc"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden text-muted-foreground hover:underline sm:inline"
+          >
+            Buy or rent me a coffee ☕
+          </a>
           <ModeToggle />
         </nav>
       </div>
@@ -160,6 +174,14 @@ function Footer() {
           <Link href="/terms" className="hover:underline">Terms</Link>
           <a href="mailto:financial-instruments@proton.me" className="hover:underline">
             Contact
+          </a>
+          <a
+            href="https://ko-fi.com/rentingbuycalc"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+          >
+            ☕ Support
           </a>
         </nav>
       </div>

@@ -102,6 +102,14 @@ export function withdraw(b: BucketState, amount: number): Withdrawal {
   };
 }
 
+// Mark-to-market: step each bucket's cost basis up to its current value.
+// Used by an accrual tax (NL 2028 vermogensaanwasbelasting) so that, once a
+// year's unrealized gain has been taxed, the following year only taxes the
+// next year's accrual rather than re-taxing the same gain.
+export function markToMarket(b: BucketState): BucketState {
+  return { ...b, equityBasis: b.equityValue, bondBasis: b.bondValue };
+}
+
 export function unrealizedGain(b: BucketState): { equity: number; bond: number; total: number } {
   const equity = Math.max(0, b.equityValue - b.equityBasis);
   const bond = Math.max(0, b.bondValue - b.bondBasis);

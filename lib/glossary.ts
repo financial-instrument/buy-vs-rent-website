@@ -73,6 +73,14 @@ export const GLOSSARY: Record<string, GlossaryEntry> = {
     term: "Box 3 (wealth tax)",
     body: "Annual tax on savings + investments above a tax-free threshold (~€57k single, ~€114k partnered). 2025 transition uses a deemed yield × 36% rate.",
   },
+  box3Mode: {
+    term: "Box 3 regime",
+    body: "Which system taxes the renter's portfolio. ‘2025 deemed’ is today's transitional system. ‘2028 actual return’ is the proposed vermogensaanwasbelasting — it taxes the year's actual gain, including unrealised appreciation. ‘Realized CGT’ is a counterfactual, not a Dutch proposal: it models what a conventional realization-based capital-gains tax (as in most countries) would do — no annual wealth tax, taxed only on the gain at the end.",
+  },
+  box3Cgt: {
+    term: "Realized-CGT rate (counterfactual)",
+    body: "Only used in the ‘Realized CGT’ regime. The Netherlands has no general capital-gains tax on private investments today; this is an illustrative ‘normal country’ rate (≈26% in Italy/Germany) to show how a conventional system compares — it is not a Dutch policy option.",
+  },
   box3Threshold: {
     term: "Box 3 tax-free threshold",
     body: "Per-person allowance below which Box 3 doesn't apply. Doubled for fiscal partners. The legislator usually indexes it for inflation — model that with the growth field below.",

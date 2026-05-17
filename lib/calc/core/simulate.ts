@@ -5,6 +5,7 @@ import {
   bucketTotal,
   contribute,
   emptyBucket,
+  markToMarket,
   rebalance,
   withdraw,
   type BucketState,
@@ -214,6 +215,10 @@ export function simulate(input: CountryInputs, rules: CountryRules): SimulationR
         const w = withdraw(rentBucket, drag.rentDrag);
         rentBucket = w.bucket;
       }
+      // Accrual tax (NL 2028): once this year's gain is taxed, reset basis to
+      // market so next year only taxes next year's accrual.
+      if (drag.markToMarketBuy) buyBucket = markToMarket(buyBucket);
+      if (drag.markToMarketRent) rentBucket = markToMarket(rentBucket);
 
       // Annual rebalance (default on)
       buyBucket = rebalance(buyBucket, input.equitySplit);

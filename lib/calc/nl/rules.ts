@@ -1,5 +1,10 @@
 import { escalate } from "../core/escalate";
-import { bucketTotal } from "../core/portfolio";
+import {
+  bucketBasis,
+  bucketTotal,
+  unrealizedGain,
+  type BucketState,
+} from "../core/portfolio";
 import type {
   AnnualBuyTaxResult,
   AnnualPortfolioDragResult,
@@ -81,17 +86,62 @@ export const nlRules: CountryRules = {
   },
   annualPortfolioDrag: (input, buyBucket, rentBucket, ctx): AnnualPortfolioDragResult => {
     const i = input as NLInputs;
+
+    // Counterfactual: conventional realization-based CGT means NO annual
+    // wealth/return tax — the whole charge is deferred to horizon (see
+    // unrealizedCGT below).
+    if (i.box3Mode === "realized-cgt") {
+      return { buyDrag: 0, rentDrag: 0, breakdown: { threshold: 0 } };
+    }
+
     const y0 = (ctx?.yearIndex ?? 1) - 1;
     const baseThreshold = escalate(i.box3Threshold, i.box3ThresholdGrowthPct, y0);
     const threshold = i.partnered ? baseThreshold * 2 : baseThreshold;
-    const compute = (val: number) => {
+
+    if (i.box3Mode === "actual-2028") {
+      // Vermogensaanwasbelasting: tax the year's ACTUAL accrual (realized +
+      // unrealized) at box3TaxRate. The tax-free allowance is modeled the same
+      // way as the deemed system — only the fraction of the portfolio above
+      // the allowance is in scope. Basis is marked to market afterwards (see
+      // simulate.ts) so each year only taxes that year's accrual.
+      const accrualTax = (b: BucketState) => {
+        const val = bucketTotal(b);
+        if (val <= 0) return 0;
+        const gain = Math.max(0, val - bucketBasis(b));
+        const taxableFraction = Math.max(0, val - threshold) / val;
+        return gain * taxableFraction * i.box3TaxRate;
+      };
+      return {
+        buyDrag: accrualTax(buyBucket),
+        rentDrag: accrualTax(rentBucket),
+        markToMarketBuy: true,
+        markToMarketRent: true,
+        breakdown: { threshold },
+      };
+    }
+
+    // deemed-2025 (default): deemed yield × rate on wealth above the allowance.
+    const deemedTax = (val: number) => {
       const taxable = Math.max(0, val - threshold);
-      const deemed = taxable * i.box3DeemedYield;
-      return deemed * i.box3TaxRate;
+      return taxable * i.box3DeemedYield * i.box3TaxRate;
     };
-    const buyDrag = compute(bucketTotal(buyBucket));
-    const rentDrag = compute(bucketTotal(rentBucket));
-    return { buyDrag, rentDrag, breakdown: { threshold } };
+    return {
+      buyDrag: deemedTax(bucketTotal(buyBucket)),
+      rentDrag: deemedTax(bucketTotal(rentBucket)),
+      breakdown: { threshold },
+    };
   },
-  unrealizedCGT: (): RealizationCGT => ({ buyCGT: 0, rentCGT: 0 }),
+  unrealizedCGT: (input, buyBucket, rentBucket): RealizationCGT => {
+    const i = input as NLInputs;
+    // Only the counterfactual realized-CGT regime levies at realization. The
+    // deemed and 2028-accrual regimes already taxed the portfolio annually, so
+    // there is no horizon haircut (no double-count).
+    if (i.box3Mode !== "realized-cgt") return { buyCGT: 0, rentCGT: 0 };
+    const buyG = unrealizedGain(buyBucket);
+    const rentG = unrealizedGain(rentBucket);
+    return {
+      buyCGT: buyG.total * i.box3CgtRate,
+      rentCGT: rentG.total * i.box3CgtRate,
+    };
+  },
 };

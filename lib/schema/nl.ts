@@ -31,6 +31,8 @@ export const nlSchema = z.object({
   box3Threshold: z.number().min(0),
   box3DeemedYield: z.number().min(0).max(0.2),
   box3TaxRate: z.number().min(0).max(0.6),
+  box3Mode: z.enum(["deemed-2025", "actual-2028", "realized-cgt"]),
+  box3CgtRate: z.number().min(0).max(0.6),
   transferTaxRate: z.number().min(0).max(0.2),
   firstTimeBuyer: z.boolean(),
   firstTimeBuyerThreshold: z.number().min(0),
