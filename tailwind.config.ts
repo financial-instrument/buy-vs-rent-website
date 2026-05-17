@@ -37,6 +37,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Semantic buy/rent hues, alpha-enabled so faint tints (bg-buy/5,
+        // border-rent/40) work. Shared with the charts via the same CSS vars.
+        buy: "hsl(var(--buy) / <alpha-value>)",
+        rent: "hsl(var(--rent) / <alpha-value>)",
       },
       borderRadius: {
         lg: "var(--radius)",

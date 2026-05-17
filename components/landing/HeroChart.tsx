@@ -9,6 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { BUY_COLOR, RENT_COLOR } from "@/lib/chartColors";
 
 // Pre-baked example: ~Dutch 10-year scenario, €450k home, 10% down,
 // 4.5% rate, 3% appreciation, 7% equity / 4% bond, 70/30 split.
@@ -35,12 +36,12 @@ export function HeroChart() {
         <AreaChart data={DATA} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="buyFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
-              <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+              <stop offset="5%" stopColor={BUY_COLOR} stopOpacity={0.4} />
+              <stop offset="95%" stopColor={BUY_COLOR} stopOpacity={0} />
             </linearGradient>
             <linearGradient id="rentFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+              <stop offset="5%" stopColor={RENT_COLOR} stopOpacity={0.3} />
+              <stop offset="95%" stopColor={RENT_COLOR} stopOpacity={0} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
@@ -63,7 +64,7 @@ export function HeroChart() {
           <Area
             type="monotone"
             dataKey="Buy"
-            stroke="#10b981"
+            stroke={BUY_COLOR}
             strokeWidth={2}
             fill="url(#buyFill)"
             isAnimationActive={false}
@@ -71,7 +72,7 @@ export function HeroChart() {
           <Area
             type="monotone"
             dataKey="Rent"
-            stroke="#3b82f6"
+            stroke={RENT_COLOR}
             strokeWidth={2}
             fill="url(#rentFill)"
             isAnimationActive={false}

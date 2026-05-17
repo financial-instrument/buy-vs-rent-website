@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import type { SimulationResult, Currency } from "@/lib/calc/core/types";
 import { formatCurrency } from "@/lib/utils";
+import { BUY_COLOR, RENT_COLOR } from "@/lib/chartColors";
 
 export function MonthlyCostChart({
   result,
@@ -100,8 +101,8 @@ export function MonthlyCostChart({
           <Bar stackId="buy" dataKey="HOA" fill="#94a3b8" isAnimationActive={false} />
           <Bar stackId="buy" dataKey="Maintenance" fill="#fbbf24" isAnimationActive={false} />
           <Bar stackId="buy" dataKey="PMI" fill="#ef4444" isAnimationActive={false} />
-          <Bar stackId="buy" dataKey="Principal" fill="#10b981" isAnimationActive={false} />
-          <Bar stackId="rent" dataKey="Rent" fill="#3b82f6" isAnimationActive={false} />
+          <Bar stackId="buy" dataKey="Principal" fill={BUY_COLOR} isAnimationActive={false} />
+          <Bar stackId="rent" dataKey="Rent" fill={RENT_COLOR} isAnimationActive={false} />
         </BarChart>
       </ResponsiveContainer>
     </div>

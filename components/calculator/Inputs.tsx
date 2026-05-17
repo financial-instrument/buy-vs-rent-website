@@ -24,10 +24,14 @@ export function Inputs() {
     patch({ [k]: v } as Partial<CountryInputs>);
 
   return (
-    <Accordion type="multiple" defaultValue={["home", "mortgage", "rent"]} className="w-full">
-      <AccordionItem value="home">
+    <Accordion
+      type="multiple"
+      defaultValue={["home", "mortgage", "rent"]}
+      className="w-full [&>div]:mb-3 [&>div]:overflow-hidden [&>div]:rounded-xl [&>div]:bg-card [&>div]:px-4 [&>div]:shadow-sm [&>div]:ring-1 [&>div]:ring-inset [&>div]:ring-border"
+    >
+      <AccordionItem value="home" className="border-0 border-l-4 border-l-buy/70">
         <AccordionTrigger>Home</AccordionTrigger>
-        <AccordionContent className="grid gap-4">
+        <AccordionContent className="grid gap-4 rounded-lg bg-muted/40 p-3 sm:p-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <NumberField
               label="Home price"
@@ -81,9 +85,9 @@ export function Inputs() {
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="mortgage">
+      <AccordionItem value="mortgage" className="border-0 border-l-4 border-l-buy/70">
         <AccordionTrigger>Mortgage</AccordionTrigger>
-        <AccordionContent className="grid gap-4">
+        <AccordionContent className="grid gap-4 rounded-lg bg-muted/40 p-3 sm:p-4">
           <SliderField
             label="Down payment"
             value={inputs.downPaymentPct}
@@ -171,9 +175,9 @@ export function Inputs() {
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="rent">
+      <AccordionItem value="rent" className="border-0 border-l-4 border-l-rent/70">
         <AccordionTrigger>Rent</AccordionTrigger>
-        <AccordionContent className="grid gap-4">
+        <AccordionContent className="grid gap-4 rounded-lg bg-muted/40 p-3 sm:p-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <NumberField
               label="Monthly rent (all-in)"
@@ -190,9 +194,9 @@ export function Inputs() {
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="investments">
+      <AccordionItem value="investments" className="border-0 border-l-4 border-l-border">
         <AccordionTrigger>Investments</AccordionTrigger>
-        <AccordionContent className="grid gap-4">
+        <AccordionContent className="grid gap-4 rounded-lg bg-muted/40 p-3 sm:p-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <PercentField
               label="Equity expected return"
@@ -219,18 +223,18 @@ export function Inputs() {
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="tax">
-        <AccordionTrigger>Tax & household</AccordionTrigger>
-        <AccordionContent className="grid gap-4">
+      <AccordionItem value="tax" className="border-0 border-l-4 border-l-border">
+        <AccordionTrigger>Tax &amp; household</AccordionTrigger>
+        <AccordionContent className="grid gap-4 rounded-lg bg-muted/40 p-3 sm:p-4">
           {inputs.country === "us" && <USTaxFields inputs={inputs as USInputs} />}
           {inputs.country === "nl" && <NLTaxFields inputs={inputs as NLInputs} />}
           {inputs.country === "it" && <ITTaxFields inputs={inputs as ITInputs} />}
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="policy">
+      <AccordionItem value="policy" className="border-0 border-l-4 border-l-border">
         <AccordionTrigger>Policy simulation</AccordionTrigger>
-        <AccordionContent className="grid gap-4">
+        <AccordionContent className="grid gap-4 rounded-lg bg-muted/40 p-3 sm:p-4">
           <p className="text-[11px] text-muted-foreground">
             Simulate inflation indexing or future policy changes by escalating tax
             thresholds annually. Year-1 uses the base value; year N uses{" "}

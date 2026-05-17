@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { itDefaults, nlDefaults, usDefaults } from "@/lib/calc";
+import type { NLInputs } from "@/lib/calc";
 import { decode } from "@/lib/url/decode";
 import { encode } from "@/lib/url/encode";
 
@@ -27,7 +28,7 @@ describe("URL round-trip", () => {
 
   it("NL box3Mode (enum) round-trips off-default", () => {
     const orig = { ...nlDefaults(), box3Mode: "actual-2028" as const, box3CgtRate: 0.3 };
-    const back = decode("nl", new URLSearchParams(encode(orig)));
+    const back = decode("nl", new URLSearchParams(encode(orig))) as NLInputs;
     expect(back.box3Mode).toBe("actual-2028");
     expect(back.box3CgtRate).toBe(0.3);
   });

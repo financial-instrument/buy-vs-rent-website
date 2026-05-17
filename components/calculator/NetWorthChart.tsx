@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import type { SimulationResult, Currency } from "@/lib/calc/core/types";
 import { formatCurrency } from "@/lib/utils";
+import { BUY_COLOR, RENT_COLOR } from "@/lib/chartColors";
 
 export function NetWorthChart({
   result,
@@ -53,7 +54,7 @@ export function NetWorthChart({
           <Line
             type="monotone"
             dataKey="Buy"
-            stroke="#10b981"
+            stroke={BUY_COLOR}
             strokeWidth={2}
             dot={false}
             isAnimationActive={false}
@@ -61,7 +62,7 @@ export function NetWorthChart({
           <Line
             type="monotone"
             dataKey="Rent"
-            stroke="#3b82f6"
+            stroke={RENT_COLOR}
             strokeWidth={2}
             dot={false}
             isAnimationActive={false}
