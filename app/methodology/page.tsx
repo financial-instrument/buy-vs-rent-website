@@ -32,7 +32,7 @@ export default function MethodologyPage() {
           <li>
             <strong>Buy</strong>: <code>(homeValue − loanBalance) + portfolio</code>.
             An accounting view of home equity plus accumulated investments. Sale-side
-            transaction costs are configurable (default 0%): set them to ~6–10% to
+            transaction costs are configurable (default 0%): set them to ~6% to 10% to
             see the "if I sold today" liquidation view.
           </li>
           <li>
@@ -58,7 +58,7 @@ export default function MethodologyPage() {
       <section>
         <h2>Investment portfolio</h2>
         <p>
-          Two buckets — equity ETF and government bonds — with a user-controlled
+          Two buckets (equity ETF and government bonds) with a user-controlled
           allocation slider. Monthly returns via{" "}
           <code>(1 + annual)^(1/12) − 1</code>, annual rebalance to the target
           split. Cost basis is tracked per bucket so realization tax is computed
@@ -87,7 +87,7 @@ export default function MethodologyPage() {
             <code>min(1, $750k / avgBalance)</code>) + min($10k SALT cap,
             property tax + state-local income tax). State-local income tax is
             approximated as <code>householdIncome × stateLocalIncomeRate</code>
-            {" "}— a flat-rate proxy that ignores state-bracket structure. If
+            {" "}(a flat-rate proxy that ignores state-bracket structure). If
             itemized &gt; standard deduction (2025: $15k single / $30k MFJ), we
             apply the federal marginal rate to the excess.
           </li>
@@ -117,7 +117,7 @@ export default function MethodologyPage() {
           </li>
           <li>
             <strong>HRA (Hypotheekrenteaftrek):</strong> deductible at the lower
-            of marginal rate and the ceiling (≈ 36.97%) — only for annuity
+            of marginal rate and the ceiling (≈ 36.97%), only for annuity
             products. Net annual buy-side tax effect ={" "}
             <code>min(marginal, ceiling) × interestPaid − marginal × EWF</code>.
           </li>
@@ -132,7 +132,7 @@ export default function MethodologyPage() {
         <h3 id="it">Italy</h3>
         <ul>
           <li>
-            One-time costs (prima casa, private seller, non-luxury A/2–A/7):
+            One-time costs (prima casa, private seller, non-luxury A/2 to A/7):
             <ul>
               <li>Imposta di registro: 2% × cadastral value</li>
               <li>Imposta ipotecaria + catastale: €100 fixed (€50 + €50)</li>
@@ -146,7 +146,7 @@ export default function MethodologyPage() {
           </li>
           <li>
             <strong>Mutuo deduction:</strong> 19% × min(interest paid in year,
-            €4,000) — credit against IRPEF, prima casa only.
+            €4,000), a credit against IRPEF, prima casa only.
           </li>
           <li>Bollo: 0.2% on portfolio market value, annually.</li>
           <li>
@@ -184,22 +184,22 @@ export default function MethodologyPage() {
         <ul>
           <li>Dividend withholding tax on equity ETFs ignored.</li>
           <li>
-            NL Box 3: whole portfolio in the "investments" bucket — bond/cash
+            NL Box 3: whole portfolio in the "investments" bucket; the bond/cash
             distinction is not modelled.
           </li>
           <li>IT: distributions ignored, taxes only at realization.</li>
-          <li>Maintenance is a flat % of value — no shock years.</li>
-          <li>HOA / TARI / insurance are flat — no inflation modelled.</li>
+          <li>Maintenance is a flat % of value, with no shock years.</li>
+          <li>HOA / TARI / insurance are flat, with no inflation modelled.</li>
           <li>
             NL partnered case uses the same marginal rate for both partners
             (simplification).
           </li>
           <li>
-            Italy luxury homes (A/1, A/8, A/9) are excluded — IMU exemption
+            Italy luxury homes (A/1, A/8, A/9) are excluded; IMU exemption
             assumed.
           </li>
           <li>
-            Annual rebalance treated as cost-basis-preserving (a simplification —
+            Annual rebalance treated as cost-basis-preserving (a simplification;
             in practice rebalancing crystallises gains).
           </li>
         </ul>

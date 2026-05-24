@@ -32,7 +32,7 @@ export default function OgImage() {
             textAlign: "center",
           }}
         >
-          Rent vs Buy — Italy
+          Rent vs Buy: Italy
         </div>
         <div
           style={{
@@ -44,7 +44,7 @@ export default function OgImage() {
             lineHeight: 1.3,
           }}
         >
-          Prima casa, mutuo, bollo, and the 26%/12.5% CGT split — all modelled
+          Prima casa, mutuo, bollo, and the 26%/12.5% CGT split, all modelled
         </div>
       </div>
     ),

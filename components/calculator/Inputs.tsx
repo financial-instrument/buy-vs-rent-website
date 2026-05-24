@@ -15,10 +15,8 @@ import {
 import { useCalcStore } from "./store";
 import type { CountryInputs, ITInputs, NLInputs, USInputs } from "@/lib/calc/core/types";
 
-export function Inputs() {
-  const inputs = useCalcStore((s) => s.inputs);
+export function Inputs({ inputs }: { inputs: CountryInputs }) {
   const patch = useCalcStore((s) => s.patch);
-  if (!inputs) return null;
 
   const set = <K extends keyof CountryInputs>(k: K, v: CountryInputs[K]) =>
     patch({ [k]: v } as Partial<CountryInputs>);

@@ -25,7 +25,7 @@ export default function AboutPage() {
       </p>
       <p>
         So I wrote one for myself, and then generalised it to two more tax regimes I
-        have connections to — the United States and Italy — both of which have their
+        have connections to (the United States and Italy), both of which have their
         own rules that off-the-shelf calculators routinely flatten or ignore.
       </p>
 
@@ -33,26 +33,27 @@ export default function AboutPage() {
       <p>
         Most rent-vs-buy calculators compare the buyer's home equity against the
         renter's accumulated rent payments. That ignores the renter's biggest
-        advantage — investing the down payment plus closing costs — and ignores the
+        advantage, investing the down payment plus closing costs, and ignores the
         buyer's actual after-tax cost.
       </p>
       <p>
-        This tool fixes both. Both households start with the same liquid wealth (down
-        payment plus buy-side closing costs). At time zero, the buyer spends it on the
-        house; the renter invests it. Each month afterwards, whichever side has the
-        lower outflow invests the difference, and country-specific tax treatment is
-        netted in once a year. The mortgage interest deduction (US),
-        Hypotheekrenteaftrek and Eigenwoningforfait (NL), the 19% mutuo credit (IT),
-        wealth taxes (Box 3 in the Netherlands, bollo in Italy), and capital-gains tax
-        on the renter's portfolio (US LTCG, IT 26% / 12.5% split for equity vs
-        government bonds) are all modelled in the year-end tick.
+        This tool fixes both. Rather than comparing monthly payments, it runs both
+        households forward from the same starting savings and measures their net worth
+        year by year. The full opportunity-cost framing is laid out in{" "}
+        <a href="/guides/why-rent-vs-buy-calculators-are-wrong">the guides</a> and on
+        the <a href="/methodology">methodology</a> page. What makes each country
+        distinct is the tax treatment netted in once a year: the mortgage interest
+        deduction (US), Hypotheekrenteaftrek and the Eigenwoningforfait (NL), the 19%
+        mutuo credit (IT), wealth taxes (Box 3 in the Netherlands, bollo in Italy), and
+        capital-gains tax on the renter's portfolio (US LTCG, Italy's 26% / 12.5% split
+        for equity vs government bonds).
       </p>
 
       <h2>How net worth is defined</h2>
       <p>
         For the buyer: home value minus loan balance, plus any portfolio they have
         accumulated. We do <em>not</em> subtract sale-side transaction costs (agent,
-        notary, transfer tax) — that gives an accounting view, not a "if I sold today"
+        notary, transfer tax), which gives an accounting view, not a "if I sold today"
         liquidation view. For the renter: portfolio value minus the country-specific
         capital-gains tax that would be owed on liquidation. The two definitions are
         intentionally asymmetric, to reflect the difference between an illiquid asset
@@ -81,7 +82,7 @@ export default function AboutPage() {
       <h2>Contact</h2>
       <p>
         Questions, bug reports, suggestions for additional tax rules to model, or
-        corrections to the math — email{" "}
+        corrections to the math, email{" "}
         <a href="mailto:financial-instruments@proton.me">
           financial-instruments@proton.me
         </a>.

@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
-import { useSearchParams } from "next/navigation";
 import { runSimulation } from "@/lib/calc";
 import { decode } from "@/lib/url/decode";
 import { itDefaults, nlDefaults, usDefaults } from "@/lib/calc";
-import type { Country, Currency } from "@/lib/calc/core/types";
+import type { Country, CountryInputs, Currency } from "@/lib/calc/core/types";
 import { Inputs } from "./Inputs";
 import { Summary } from "./Summary";
 import { ShareLink } from "./ShareLink";
@@ -42,28 +41,36 @@ const NAMES: Record<Country, string> = {
   it: "Italy",
 };
 
+function defaultsFor(country: Country): CountryInputs {
+  return country === "us" ? usDefaults() : country === "nl" ? nlDefaults() : itDefaults();
+}
+
 export function Calculator({ country, currency }: { country: Country; currency: Currency }) {
-  const searchParams = useSearchParams();
-  const inputs = useCalcStore((s) => s.inputs);
+  const storeInputs = useCalcStore((s) => s.inputs);
   const setInputs = useCalcStore((s) => s.setInputs);
 
-  // Initialize from URL or defaults; runs whenever the country changes.
+  // Seed with country defaults so the first (server) render is fully populated
+  // and crawlable. The store starts null, so SSR and the first client render
+  // both use defaults — no hydration mismatch — and the URL overlay below only
+  // applies after mount.
+  const inputs = storeInputs ?? defaultsFor(country);
+
+  // On mount / country change, overlay any URL-encoded scenario. We read
+  // window.location.search directly rather than useSearchParams() so this
+  // component prerenders to static HTML instead of bailing out to client-only
+  // rendering (which previously left crawlers seeing only the skeleton).
   useEffect(() => {
     let initial;
     try {
-      initial = decode(country, new URLSearchParams(searchParams.toString()));
+      initial = decode(country, new URLSearchParams(window.location.search));
     } catch {
-      initial = country === "us" ? usDefaults() : country === "nl" ? nlDefaults() : itDefaults();
+      initial = defaultsFor(country);
     }
     setInputs(initial);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [country]);
 
-  const result = useMemo(() => (inputs ? runSimulation(inputs) : null), [inputs]);
-
-  if (!inputs || !result) {
-    return <div className="p-12 text-center text-sm text-muted-foreground">Loading…</div>;
-  }
+  const result = useMemo(() => runSimulation(inputs), [inputs]);
 
   return (
     <div className="grid gap-6 md:grid-cols-[1fr_320px]">
@@ -77,13 +84,7 @@ export function Calculator({ country, currency }: { country: Country; currency: 
               variant="ghost"
               size="sm"
               onClick={() => {
-                const defaults =
-                  country === "us"
-                    ? usDefaults()
-                    : country === "nl"
-                      ? nlDefaults()
-                      : itDefaults();
-                setInputs(defaults);
+                setInputs(defaultsFor(country));
                 window.history.replaceState(null, "", window.location.pathname);
               }}
             >
@@ -99,7 +100,7 @@ export function Calculator({ country, currency }: { country: Country; currency: 
             <CardTitle>Inputs</CardTitle>
           </CardHeader>
           <CardContent>
-            <Inputs />
+            <Inputs inputs={inputs} />
           </CardContent>
         </Card>
 

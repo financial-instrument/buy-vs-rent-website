@@ -32,7 +32,7 @@ export default function OgImage() {
             textAlign: "center",
           }}
         >
-          Rent vs Buy — Netherlands
+          Rent vs Buy: Netherlands
         </div>
         <div
           style={{
@@ -44,7 +44,7 @@ export default function OgImage() {
             lineHeight: 1.3,
           }}
         >
-          HRA, EWF, Box 3, NHG, and the 2% transfer tax — all modelled
+          HRA, EWF, Box 3, NHG, and the 2% transfer tax, all modelled
         </div>
       </div>
     ),

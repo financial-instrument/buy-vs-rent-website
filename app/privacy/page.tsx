@@ -53,7 +53,7 @@ export default function PrivacyPage() {
 
       <h2>Analytics</h2>
       <p>
-        This site does not use first-party analytics — no Google Analytics, no
+        This site does not use first-party analytics: no Google Analytics, no
         Plausible, no behavioural fingerprinting. Standard server logs at the hosting
         provider may briefly record IP addresses for abuse prevention.
       </p>
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
         If you are in the European Economic Area you have the right to access,
         rectify, erase, restrict, and object to processing of your personal data, and
         to data portability. Because this site collects no personal data directly,
-        most of these rights apply to advertising cookies set by Google — manage them
+        most of these rights apply to advertising cookies set by Google; manage them
         via the links above. For complaints in the Netherlands, contact the
         Autoriteit Persoonsgegevens (
         <a href="https://autoriteitpersoonsgegevens.nl/" target="_blank" rel="noopener">

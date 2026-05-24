@@ -1,0 +1,63 @@
+export const metadata = {
+  title: "How capital-gains tax quietly changes the rent-vs-buy answer",
+  description:
+    "A renter who invests the down payment owes tax on the gains; a homeowner usually does not. How US LTCG, Italy's 26%/12.5% split and Dutch Box 3 reshape the comparison.",
+  alternates: { canonical: "/guides/capital-gains-tax-and-rent-vs-buy" },
+};
+
+# How capital-gains tax quietly changes the rent-vs-buy answer
+
+The case for renting rests on a simple, powerful idea: instead of locking your savings into a house, you invest them, and compounding does the rest. It is a good idea. But there is a catch that pro-renting arguments tend to wave away: the renter's gains are taxed, and the homeowner's usually are not. That asymmetry is small in any single year and decisive over a decade. This guide explains where it comes from and how three different countries handle it.
+
+## The core asymmetry
+
+When a homeowner sells the home they live in, most tax systems either exclude a large chunk of the gain or exempt it entirely. The home you live in is treated as a special, protected asset.
+
+An investment portfolio gets no such protection. When the renter sells to realise their wealth, the gain is taxed. So a fair rent-vs-buy comparison cannot line up the buyer's home equity (gains effectively untaxed) against the renter's portfolio measured *before* tax. That is comparing a post-tax number to a pre-tax number, and it flatters renting every time.
+
+The fix is to measure both sides after the tax each would actually pay:
+
+- **Buyer net worth** = home value − remaining loan + any portfolio. The home gain is untaxed, matching how primary-residence sales are treated.
+- **Renter net worth** = portfolio − the capital-gains tax owed if the portfolio were liquidated.
+
+That single haircut on the renter's side moves the crossover year (the point where buying overtakes renting) out by a meaningful margin, and the longer the horizon, the bigger the effect, because the untaxed gains have compounded for longer.
+
+## United States: long-term capital gains plus NIIT
+
+In the US, an investment held more than a year is taxed at **long-term capital-gains** rates when sold, lower than ordinary income, but not zero ([IRS Topic no. 409](https://www.irs.gov/taxtopics/tc409)). Higher earners also pay the **3.8% Net Investment Income Tax** surcharge on top ([IRS, NIIT](https://www.irs.gov/newsroom/questions-and-answers-on-the-net-investment-income-tax)).
+
+Against this sits the primary-residence exclusion, which shelters up to $250,000 of home-sale gain ($500,000 for a married couple filing jointly) ([IRS Topic no. 701](https://www.irs.gov/taxtopics/tc701)). The result: the homeowner's gain is largely untaxed, the renter's is taxed at LTCG (possibly plus NIIT). A model that ignores this hands the renter a tax-free portfolio they will never actually have.
+
+## Italy: the 26% / 12.5% split
+
+Italy taxes investment gains at **two rates**: 26% on equities and most ETFs, and 12.5% on Italian and qualifying EU government bonds ([Agenzia delle Entrate, Circolare 19/E del 2014](https://www.agenziaentrate.gov.it/portale/documents/20143/298850/Circolare+n19E+del+27+giugno+2014_Cir19e+del+27+06+14.pdf)). So in Italy the renter's exit tax depends on *what they hold*. A portfolio of equity ETFs faces a 26% haircut; a bond-heavy portfolio faces 12.5% on that slice.
+
+This means the asset mix is itself a rent-vs-buy variable. Two renters with the same total return but different equity-bond splits end up with different after-tax wealth. A serious model tracks the cost basis of each bucket so the final bill reflects the real mix, rather than a single blended guess. Italy also levies the annual **bollo** wealth tax (0.2%) on the portfolio along the way, a separate, ongoing drag the homeowner's equity avoids.
+
+## Netherlands: Box 3 is a tax on holding, not selling
+
+The Netherlands is the interesting outlier. It does not primarily tax the gain *when you sell*; it taxes wealth *while you hold it*, through **Box 3** ([Rijksoverheid, box 3](https://www.rijksoverheid.nl/onderwerpen/inkomstenbelasting/box-3)). Each year, investment wealth above the tax-free allowance (doubled for fiscal partners) is taxed.
+
+For rent vs buy this is a different shape of drag. Instead of one haircut at the end, the renter's portfolio is taxed every year it sits above the allowance, a continuous leak rather than a one-time exit cost. And because the owner-occupied home is taxed in Box 1 (through HRA and the Eigenwoningforfait), not Box 3, the buyer's housing wealth sidesteps the wealth tax entirely. The **2028 Box 3 reform** changes how this annual tax is computed, moving toward taxing actual returns, which is why it deserves [its own guide](/guides/box3-2028-reform-explained).
+
+## Why this is easy to get wrong
+
+The capital-gains asymmetry is easy to miss because it never shows up in a monthly budget. It is invisible right up until you sell, at which point it is a single large number that quietly rewrites the comparison you made years earlier. Calculators that report monthly cash flow cannot see it at all; even net-worth calculators miss it if they forget to net the renter's exit tax.
+
+It also interacts with time. The longer the renter holds, the more their gains compound, but also the larger the eventual tax bill (in the US and Italy) or the more years of Box 3 drag (in the Netherlands). The buyer's untaxed appreciation, meanwhile, compounds freely. This is a structural reason the crossover year exists where it does.
+
+## The takeaway
+
+If you only remember one thing: **do not compare the buyer's after-tax home equity to the renter's pre-tax portfolio.** Net the renter's capital-gains tax, LTCG (plus NIIT) in the US, 26%/12.5% by asset type in Italy, annual Box 3 in the Netherlands, and the rent-vs-buy answer shifts toward buying, more so the longer your horizon.
+
+The calculators on this site do exactly that, with country-correct rules and cost-basis tracking:
+
+- [United States](/us) · [Netherlands](/nl) · [Italy](/it)
+
+The [methodology](/methodology) page documents how each country's capital-gains treatment is computed.
+
+## Sources
+
+- IRS, [Topic no. 409, Capital gains and losses](https://www.irs.gov/taxtopics/tc409), [Topic no. 701, Sale of your home](https://www.irs.gov/taxtopics/tc701), and [Net Investment Income Tax](https://www.irs.gov/newsroom/questions-and-answers-on-the-net-investment-income-tax).
+- Agenzia delle Entrate, [Circolare 19/E del 27 giugno 2014](https://www.agenziaentrate.gov.it/portale/documents/20143/298850/Circolare+n19E+del+27+giugno+2014_Cir19e+del+27+06+14.pdf) (the 26% / 12.5% rates).
+- Rijksoverheid, [Box 3](https://www.rijksoverheid.nl/onderwerpen/inkomstenbelasting/box-3) and [Plannen werkelijk rendement box 3](https://www.rijksoverheid.nl/onderwerpen/inkomstenbelasting/plannen-werkelijk-rendement-box-3).

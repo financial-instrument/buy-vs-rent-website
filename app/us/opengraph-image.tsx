@@ -32,7 +32,7 @@ export default function OgImage() {
             textAlign: "center",
           }}
         >
-          Rent vs Buy — United States
+          Rent vs Buy: United States
         </div>
         <div
           style={{
@@ -44,7 +44,7 @@ export default function OgImage() {
             lineHeight: 1.3,
           }}
         >
-          MID, SALT cap, PMI, and capital-gains tax — all modelled
+          MID, SALT cap, PMI, and capital-gains tax, all modelled
         </div>
       </div>
     ),

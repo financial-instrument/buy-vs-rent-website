@@ -30,7 +30,7 @@ export default function TermsPage() {
         Cross-check with a qualified advisor before making any financial decision.
       </p>
 
-      <h2>"As is" — no warranty</h2>
+      <h2>"As is": no warranty</h2>
       <p>
         The site is provided "as is" without warranty of any kind, express or
         implied, including warranties of merchantability, fitness for a particular

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { HeroChart } from "@/components/landing/HeroChart";
 
 export const metadata: Metadata = {
-  title: "Rent vs Buy Calculator — US, Netherlands, Italy",
+  title: "Rent vs Buy Calculator: US, Netherlands, Italy",
   description:
     "An honest rent-vs-buy calculator that accounts for opportunity cost and country-specific taxation. Choose US, Netherlands, or Italy.",
 };
@@ -18,7 +18,7 @@ export default function Landing() {
           </h1>
           <p className="text-base text-muted-foreground sm:text-lg">
             A calculator that takes opportunity cost and country-specific taxes
-            seriously — the only honest way to settle the question.
+            seriously, the only honest way to settle the question.
           </p>
           <p className="text-sm text-muted-foreground">
             Pick a country to start. Every input is encoded in the URL so you can
@@ -27,7 +27,7 @@ export default function Landing() {
         </div>
         <div className="rounded-xl border bg-card p-3 shadow-sm">
           <div className="px-1 pb-1 text-xs text-muted-foreground">
-            Net worth over time — illustrative scenario
+            Net worth over time (illustrative scenario)
           </div>
           <HeroChart />
         </div>
@@ -61,7 +61,7 @@ export default function Landing() {
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
             Most rent-vs-buy widgets compare a mortgage payment to a monthly rent.
-            That answer is wrong — sometimes by hundreds of thousands of euros. The
+            That answer is wrong, sometimes by hundreds of thousands of euros. The
             simulation here is built around a few principles that the alternatives
             ignore.
           </p>
@@ -69,7 +69,7 @@ export default function Landing() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <Pillar title="Opportunity cost is real">
-            Both households start with the same liquid wealth — the down payment
+            Both households start with the same liquid wealth: the down payment
             plus closing costs. The buyer spends it on the house; the renter
             invests it. Each month, whichever side has the lower outflow invests
             the difference. Whatever the renter would have paid in mortgage costs
@@ -93,17 +93,17 @@ export default function Landing() {
           <Pillar title="The inputs you actually have">
             Home price, down payment, mortgage rate, term, time horizon, expected
             stock/bond return, marginal tax rate, partnered status, NHG
-            eligibility, filing status — the simulation exposes the levers you
+            eligibility, filing status: the simulation exposes the levers you
             either know about yourself or can reasonably forecast. Defaults are
             seeded with realistic 2025 numbers per country.
           </Pillar>
         </div>
 
         <p className="text-sm text-muted-foreground">
-          See the <Link className="underline" href="/methodology">methodology page</Link>{" "}
-          for the formulas, the{" "}
-          <Link className="underline" href="/about">about page</Link> for why this
-          exists, or jump straight into a country above.
+          Read the <Link className="underline" href="/guides">guides</Link> for
+          country-by-country walk-throughs and the economics behind the model, the{" "}
+          <Link className="underline" href="/methodology">methodology page</Link> for
+          the formulas, or jump straight into a country above.
         </p>
       </section>
     </div>

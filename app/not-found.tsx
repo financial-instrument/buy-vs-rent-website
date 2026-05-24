@@ -12,7 +12,7 @@ export default function NotFound() {
       <p className="text-6xl font-bold leading-none tracking-tighter">404</p>
       <h1 className="mt-4">Page not found</h1>
       <p className="text-muted-foreground">
-        The page you're looking for doesn't exist — or never did.
+        The page you're looking for doesn't exist, or never did.
       </p>
       <div className="not-prose mt-8 flex flex-wrap justify-center gap-3 text-sm">
         <Link href="/" className="underline-offset-4 hover:underline">

@@ -1,0 +1,67 @@
+export const metadata = {
+  title: "Why most rent-vs-buy calculators are wrong",
+  description:
+    "Comparing a mortgage payment to a rent cheque ignores the renter's down payment and the buyer's after-tax cost. Here is the opportunity-cost framing that fixes both.",
+  alternates: { canonical: "/guides/why-rent-vs-buy-calculators-are-wrong" },
+};
+
+# Why most rent-vs-buy calculators are wrong
+
+Type "rent vs buy calculator" into a search engine and you will find dozens of tools that agree on a method and disagree on almost nothing. They ask for your rent and your likely mortgage payment, compare the two, and declare a winner. That method is intuitive, widely copied, and wrong in a way that can mislead by hundreds of thousands of euros or dollars over a decade.
+
+The error is not arithmetic. It is conceptual: comparing monthly *payments* answers a question nobody should be asking. Here is what the payment comparison misses, and the framing that fixes it.
+
+## Mistake 1: ignoring the down payment's opportunity cost
+
+The single biggest omission is the renter's down payment. When you buy, you take a large pile of liquid savings (the down payment plus closing costs) and convert it into illiquid home equity on day one. When you rent, that same pile stays invested.
+
+A payment-versus-payment calculator treats that money as if it vanishes the moment you decide to rent. It does the opposite of vanish: it compounds. Over ten years at a 7% return, a €50,000 down payment left invested becomes nearly €100,000. Any comparison that does not credit the renter with the growth of the money they *didn't* spend on a house is not a comparison at all; it is a thumb on the scale for buying.
+
+The correct treatment is **opportunity cost**: the renter invests what the buyer sank into the house, and you track that portfolio alongside the buyer's home equity. This is the heart of an honest model.
+
+## Mistake 2: treating the whole mortgage payment as "building equity"
+
+The flip side of "rent is throwing money away" is the assumption that a mortgage payment is forced savings. Early in an amortising loan it mostly is not. The large majority of an early mortgage payment is **interest, property tax, and insurance**, money that leaves your pocket and does not come back, exactly like rent. Only the principal portion builds equity, and in the early years that portion is small.
+
+So the right comparison is not "rent versus mortgage payment." It is "rent plus the renter's investing" versus "the buyer's true costs (interest, taxes, insurance, maintenance) plus the equity they build plus the home's appreciation." Lumping all of the mortgage payment into the buyer's column as if it were savings double-counts in the buyer's favour.
+
+## Mistake 3: a flat tax discount instead of real tax rules
+
+Tax treatment of housing is where the simple tools fall apart completely. They tend to apply a flat percentage discount, "you get the mortgage interest back at your tax rate," and leave it there. Real tax codes are not flat:
+
+- In the **US**, the mortgage interest deduction only helps if you itemize past the standard deduction, the SALT cap limits property-tax relief, and the benefit shrinks as the loan amortises ([IRS Publication 936](https://www.irs.gov/publications/p936)).
+- In the **Netherlands**, Hypotheekrenteaftrek is capped well below the top rate *and* partially clawed back by the Eigenwoningforfait, while the renter's portfolio is taxed in Box 3 ([Belastingdienst, eigen woning](https://www.belastingdienst.nl/eigenwoning)).
+- In **Italy**, the mortgage benefit is a 19% credit capped at €760/year, and the renter pays bollo plus a 26%/12.5% capital-gains split ([Agenzia delle Entrate, agevolazioni prima casa](https://www.agenziaentrate.gov.it/portale/aree-tematiche/casa/agevolazioni/agevolazioni-per-acquisto-della-prima-casa)).
+
+A flat discount captures none of this, and the errors do not cancel; they systematically favour whichever side the tool's author had in mind.
+
+## Mistake 4: forgetting the renter's exit tax
+
+Even the better calculators that do credit the renter's portfolio often forget that the portfolio is taxed when sold. A homeowner's primary-residence gain is largely tax-free on sale in most jurisdictions; a renter-investor owes capital-gains tax on liquidation. Comparing the buyer's untaxed equity to the renter's *pre-tax* portfolio quietly overstates renting. An honest model nets the capital-gains tax the renter would actually owe.
+
+## The framing that gets it right: symmetric opportunity cost
+
+A correct model starts both households from the **same liquid wealth** and gives them the same compounding engine. From there:
+
+- At the start, the buyer spends that wealth on the house; the renter invests it.
+- Each month, whichever side has the lower outflow invests the difference. Some periods that is the renter, some the buyer.
+- Country-specific tax effects are netted in once a year, not as a flat discount but as the real rules.
+- Net worth is measured consistently: the buyer's as home equity plus any portfolio, the renter's as portfolio minus the capital-gains tax owed on liquidation.
+
+The output is not a single "buy if the payment is lower" verdict. It is a **net-worth curve for both sides over time**, with a crossover year, the point at which buying overtakes renting. Below the crossover, the renter's invested down payment and the buyer's sunk transaction costs favour renting; above it, leverage and untaxed home appreciation favour buying. *When* you would sell decides which side of the crossover you are on, which is why a monthly-payment number can never answer the question.
+
+## See it for yourself
+
+This is exactly how the [rent-vs-buy calculator](/) on this site is built: symmetric starting wealth, real country tax rules netted annually, and a consistent net-worth definition with the renter's exit tax included. Pick a country, start from realistic defaults, and look at the crossover year rather than the monthly difference:
+
+- [United States](/us): standard deduction, SALT cap, PMI, LTCG
+- [Netherlands](/nl): HRA, Eigenwoningforfait, Box 3, NHG
+- [Italy](/it): prima casa, the mutuo credit, bollo, capital-gains split
+
+If you want the formulas behind each, the [methodology](/methodology) page has the worked rules.
+
+## Sources
+
+- IRS, [Publication 936, Home Mortgage Interest Deduction](https://www.irs.gov/publications/p936) and [Topic no. 503, Deductible taxes](https://www.irs.gov/taxtopics/tc503).
+- Belastingdienst, [Eigen woning](https://www.belastingdienst.nl/eigenwoning); Rijksoverheid, [Box 3](https://www.rijksoverheid.nl/onderwerpen/inkomstenbelasting/box-3).
+- Agenzia delle Entrate, [agevolazioni prima casa](https://www.agenziaentrate.gov.it/portale/aree-tematiche/casa/agevolazioni/agevolazioni-per-acquisto-della-prima-casa).

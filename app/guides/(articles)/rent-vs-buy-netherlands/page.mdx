@@ -1,0 +1,88 @@
+export const metadata = {
+  title:
+    "Renting vs buying in the Netherlands (2026): HRA, Box 3, transfer tax and NHG",
+  description:
+    "How Hypotheekrenteaftrek, the Eigenwoningforfait, the 2% transfer tax, NHG and Box 3 wealth tax change the rent-vs-buy maths for Dutch households, with a worked example.",
+  alternates: { canonical: "/guides/rent-vs-buy-netherlands" },
+};
+
+# Renting vs buying in the Netherlands
+
+Ask a Dutch mortgage adviser whether you should buy, and the answer usually arrives as a single monthly number: your *netto woonlast*, the after-tax cost of owning, set against the rent you pay now. If owning costs less per month, buy. It is a comforting comparison, and it is wrong often enough to cost people a serious amount of money in either direction.
+
+The problem is that it answers the wrong question. "Which costs less this month?" is not the same as "Which leaves me wealthier in ten years?" The second question is the one that matters, and answering it in the Netherlands means accounting for four things the monthly-cost view either flattens or ignores entirely: the **Hypotheekrenteaftrek** (HRA), the **Eigenwoningforfait** (EWF), the **transfer tax and other purchase costs**, and the one almost everyone forgets, **Box 3 wealth tax on the money a renter invests instead**.
+
+This guide walks through each of them in plain terms, then shows how they combine. If you want to put your own numbers in as you read, open the [Netherlands calculator](/nl) in another tab.
+
+## Buying is not "rent you pay to yourself"
+
+Start with the honest framing. A buyer and a renter with the same savings do not start equal and diverge only on monthly cash flow. They start by making opposite bets with the same pile of money.
+
+The buyer takes their savings (the down payment plus *kosten koper*, the buyer's purchase costs) and sinks all of it into one illiquid, leveraged asset on day one. The renter keeps that pile liquid and invests it. From then on, whoever has the lower monthly outflow invests the difference. Some years that is the renter; in a low-rate environment with HRA, it can be the buyer.
+
+Net worth after your time horizon, not monthly cost, is the scoreboard. Everything below is about getting that scoreboard right for Dutch rules.
+
+## Hypotheekrenteaftrek: real, but smaller than it used to be
+
+HRA lets you deduct mortgage interest from your taxable income, which is genuinely valuable in the early years of an annuity mortgage when almost all of your payment is interest. Two details matter.
+
+First, the deduction is capped. Interest is no longer deductible at your top marginal rate. It is deductible at a ceiling rate that has been ratcheted down for years and now sits around 37%. A high earner does **not** get 49.5% relief on their interest; they get the capped rate ([Belastingdienst, eigen woning](https://www.belastingdienst.nl/eigenwoning)).
+
+Second, HRA only applies to an annuity or linear mortgage that actually amortises, and its value shrinks every year as your interest portion falls. A relief number that looks generous in year one is materially smaller by year ten. Modelling HRA as a flat monthly discount over thirty years overstates it badly.
+
+## The Eigenwoningforfait quietly claws some of it back
+
+This is the line item generic calculators almost always drop. Owning a home adds a notional income, the Eigenwoningforfait, a small percentage of the WOZ value, to your taxable income. You then pay income tax on that phantom income.
+
+In effect, the EWF is a partial offset to HRA. The headline "you get your interest back at 37%" is true; the quieter "and you pay tax on a slice of your WOZ value every year" is also true. A faithful comparison nets the two. The calculator does this in the annual tax tick: the HRA refund minus the EWF drag, applied once a year.
+
+## Purchase costs are a head start the renter keeps invested
+
+Buying a Dutch home is not free to enter. Expect:
+
+- **2% overdrachtsbelasting** (transfer tax) on the purchase price, unless you qualify for the *startersvrijstelling*, the one-time exemption for buyers between 18 and 35 below a price cap, in which case it is 0% ([Belastingdienst, startersvrijstelling](https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/woning/overdrachtsbelasting/startersvrijstelling/startersvrijstelling)).
+- Notary fees for the deed and mortgage.
+- Valuation, advice, and arrangement costs.
+
+Together these are a few percent of the price, paid up front and gone. In the rent-vs-buy comparison this is the renter's structural advantage at *t = 0*: that money stays in the renter's portfolio, compounding, instead of being consumed by the transaction. Whether buying overtakes renting depends largely on how many years of ownership it takes to claw that gap back through appreciation and amortisation.
+
+## NHG: a smaller rate, a real discount
+
+If your mortgage is within the **Nationale Hypotheek Garantie** limit (set at €470,000 for 2026), you pay a one-time premium of 0.4% but receive a lower interest rate in exchange for the guarantee ([NHG](https://www.nhg.nl/het-product-nhg/een-hypotheek-met-nhg/)). Over a large, long mortgage, even a 0.5 to 0.6 percentage-point rate reduction is worth far more than the premium. If you are eligible, model it: it shifts the buyer's monthly outflow down for the whole term.
+
+## Box 3 is the renter's hidden tax, and it is changing
+
+Here is the asymmetry that almost no Dutch rent-vs-buy tool captures. Your **owner-occupied home is taxed in Box 1**, through HRA and the EWF. But the renter's *investment portfolio* (the down payment they kept liquid, plus everything they invest each month) sits in **Box 3**, the wealth tax ([Rijksoverheid, box 3](https://www.rijksoverheid.nl/onderwerpen/inkomstenbelasting/box-3)).
+
+So when you compare a buyer's home equity to a renter's portfolio, you are not comparing two untaxed piles. The buyer's gains on their home are effectively untaxed on sale; the renter's portfolio is taxed annually in Box 3 above the tax-free allowance (doubled for fiscal partners), and faces a further drag depending on how returns are assessed.
+
+This single factor can swing the answer. And it is in flux: the **2028 Box 3 reform** moves the system from a deemed-return levy toward a tax on *actual* returns, which changes the size of the renter's drag going forward ([Rijksoverheid, plannen werkelijk rendement box 3](https://www.rijksoverheid.nl/onderwerpen/inkomstenbelasting/plannen-werkelijk-rendement-box-3)). We cover that in [the Box 3 2028 reform guide](/guides/box3-2028-reform-explained); the short version is that ignoring Box 3 entirely, as most calculators do, flatters renting in a way Dutch law does not.
+
+## A worked example
+
+Take round, illustrative numbers: a €450,000 home, 10% down (€45,000), a 30-year annuity mortgage at 4%, against rent of €1,750/month, with a 7% nominal portfolio return and 2% annual home appreciation. Numbers are illustrative, so plug your own into the [calculator](/nl).
+
+- **Day one:** the buyer spends the €45,000 plus roughly €10,000 to €14,000 of purchase costs. The renter invests that whole ~€57,000 and starts compounding immediately.
+- **Early years:** the buyer's mortgage is mostly interest, so HRA relief is at its largest, but the EWF and OZB eat into it, and the renter's head start is still growing tax-deferred (less the Box 3 drag).
+- **Later years:** amortisation builds equity, HRA shrinks, and home appreciation compounds on the full property value, not just the buyer's stake. This is where buying tends to pull ahead, *if* you stay long enough.
+
+The crossover point, the year buying overtakes renting, is the number worth knowing. Below it, the transaction costs and Box 3-advantaged renter win; above it, leverage and untaxed home appreciation win. For most realistic Dutch inputs the crossover lands somewhere between five and ten years, but it is genuinely sensitive to the mortgage rate and the assumed appreciation, which is exactly why a single monthly-cost number cannot answer it.
+
+## What to actually do
+
+1. Decide your real time horizon honestly. If it is under five years, the transaction costs alone make buying a hard sell.
+2. Model HRA *and* the EWF together, not HRA alone.
+3. Don't forget the renter pays Box 3, and check how the 2028 reform changes that.
+4. Look at the sensitivity to mortgage rate and appreciation, not just the central case.
+
+The [Netherlands rent-vs-buy calculator](/nl) does all four, with every input encoded in the URL so you can share a scenario or come back to it. Start from the defaults and change the two or three inputs you actually have an opinion about.
+
+## Sources
+
+Tax figures reflect rules current in early 2026 and change frequently; verify against the primary source before acting.
+
+- Belastingdienst, [Eigen woning](https://www.belastingdienst.nl/eigenwoning) (Hypotheekrenteaftrek ceiling rate and the Eigenwoningforfait).
+- Belastingdienst, [Startersvrijstelling overdrachtsbelasting](https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/woning/overdrachtsbelasting/startersvrijstelling/startersvrijstelling) (2% transfer tax and the under-35 exemption).
+- NHG, [Een hypotheek met NHG](https://www.nhg.nl/het-product-nhg/een-hypotheek-met-nhg/) and the [2026 NHG limit (€470,000)](https://nhg.nl/nhg-actueel/nhg-grens-in-2026-vastgesteld-op-470000/).
+- Rijksoverheid, [Box 3](https://www.rijksoverheid.nl/onderwerpen/inkomstenbelasting/box-3) and [Plannen werkelijk rendement box 3 (2028)](https://www.rijksoverheid.nl/onderwerpen/inkomstenbelasting/plannen-werkelijk-rendement-box-3).
+- Hoge Raad, [ruling on actual return in Box 3 (December 2024)](https://www.hogeraad.nl/actueel/nieuwsoverzicht/2024/december/hoge-raad-bepaling-werkelijke-rendement-box-3-voordeel-wegens-eigen/).

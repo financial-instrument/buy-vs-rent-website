@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Rent vs Buy Calculator — US, Netherlands, Italy";
+export const alt = "Rent vs Buy Calculator: US, Netherlands, Italy";
 
 export default function OgImage() {
   return new ImageResponse(

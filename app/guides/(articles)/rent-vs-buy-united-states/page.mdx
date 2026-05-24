@@ -1,0 +1,68 @@
+export const metadata = {
+  title:
+    "Renting vs buying in the United States (2026): the mortgage interest deduction, SALT cap, PMI and capital gains",
+  description:
+    "Why the standard deduction, the SALT cap, PMI and long-term capital-gains tax decide the American rent-vs-buy question more than the headline mortgage rate does.",
+  alternates: { canonical: "/guides/rent-vs-buy-united-states" },
+};
+
+# Renting vs buying in the United States
+
+American homebuying folklore has a sticky slogan: *renting is throwing money away.* It is a good slogan and a bad model. A mortgage payment in the early years is overwhelmingly interest and property tax, money that does not build equity any more than rent does. Meanwhile the renter's down payment, left invested, is doing real work. Deciding rent vs buy in the US well means counting both sides honestly, and the US tax code makes "honestly" surprisingly involved.
+
+Four features do most of the damage to naive calculators: the **standard deduction** (which means most people get *no* tax benefit from a mortgage), the **SALT cap**, **PMI**, and **long-term capital-gains tax** on the renter's portfolio. Here is how each one bends the answer. To try your own numbers as you go, open the [US calculator](/us).
+
+## The mortgage interest deduction probably does nothing for you
+
+This is the most expensive misunderstanding in American personal finance. Yes, mortgage interest is deductible. No, that does not mean you save money on taxes by having a mortgage, because the deduction only helps to the extent your **itemized deductions exceed the standard deduction.**
+
+The standard deduction is large. For most households, mortgage interest plus state-and-local taxes plus charitable gifts still falls short of it, so they take the standard deduction and their mortgage interest produces exactly zero tax benefit. Only when itemized deductions clear the standard-deduction threshold does each additional dollar of interest start reducing taxes, and even then only the dollars *above* the threshold count ([IRS Publication 936](https://www.irs.gov/publications/p936)).
+
+So the right way to model the deduction is a year-by-year **itemize-versus-standard** decision, not a flat "interest × tax rate" discount. In the early years of a large mortgage at a high rate, a buyer in a high-tax state may clear the threshold and get real benefit. As the loan amortises and the interest portion shrinks, they often fall back to the standard deduction and the benefit vanishes. A calculator that applies a flat deduction every year is overstating the case for buying, sometimes dramatically.
+
+## The SALT cap limits the deduction you were counting on
+
+Even when you do itemize, the **state and local tax (SALT) deduction is capped.** Property tax plus state and local income taxes are deductible only up to that limit, and the cap level has itself changed with legislation, so check the current figure for your filing year rather than assuming the number a friend used three years ago ([IRS Topic no. 503, Deductible taxes](https://www.irs.gov/taxtopics/tc503)).
+
+This matters for rent vs buy because property tax is one of the largest ongoing costs of ownership, and depending on the year's cap and your state, part of it may fall outside the deduction. Model it as capped, or you will credit the buyer with tax savings the code does not allow.
+
+## PMI: a cost that fades as equity builds
+
+Put less than 20% down and you will usually pay **private mortgage insurance** until your loan-to-value falls below 80%. PMI is pure cost; it protects the lender, not you, and it raises the buyer's monthly outflow in exactly the early years when the renter's invested down payment is compounding hardest. The good news is that it is temporary: under the federal Homeowners Protection Act, PMI can be cancelled once your balance reaches 80% of the original value and terminates automatically at 78% ([CFPB, what is PMI](https://www.consumerfinance.gov/ask-cfpb/what-is-private-mortgage-insurance-en-122/)). A realistic model applies PMI only while LTV is above the threshold, then removes it, not as a flat lifetime cost.
+
+## The renter's quiet tax: long-term capital gains
+
+Here is the symmetry most pro-buying arguments skip. When a homeowner sells a primary residence, a large slice of the gain is **excluded** from capital-gains tax (up to $250,000 single, $500,000 married filing jointly, subject to ownership and use tests) ([IRS Topic no. 701, Sale of your home](https://www.irs.gov/taxtopics/tc701)). The renter's investment portfolio gets no such break: when they eventually sell, they owe **long-term capital-gains tax** on the appreciation ([IRS Topic no. 409, Capital gains and losses](https://www.irs.gov/taxtopics/tc409)), plus, for higher earners, the 3.8% Net Investment Income Tax surcharge ([IRS, Net Investment Income Tax](https://www.irs.gov/newsroom/questions-and-answers-on-the-net-investment-income-tax)).
+
+This cuts against the renter. A fair comparison does not pit the buyer's untaxed home equity against the renter's *pre-tax* portfolio; it nets the capital-gains tax the renter would owe on liquidation. Skip this and you overstate the renter's position. It is the mirror image of the mistake most pro-buying calculators make in the other direction, and a good model commits neither.
+
+## A worked example
+
+Illustrative round numbers: a $500,000 home, 10% down ($50,000), a 30-year fixed mortgage at 6.5%, against $2,400/month rent, a 7% nominal portfolio return, and 3% annual appreciation. Numbers are illustrative, so put your own into the [calculator](/us).
+
+- **Day one:** the buyer spends the $50,000 down payment plus closing costs (commonly 2% to 5% of the price). The renter invests all of it and begins compounding.
+- **Early years:** the buyer pays PMI (under 20% down), property tax that may sit partly outside the SALT cap, and a mortgage that is mostly interest. Whether the mortgage-interest deduction helps at all depends on clearing the standard deduction this particular year.
+- **Later years:** PMI drops off, equity builds, and appreciation compounds on the whole house. But the mortgage interest, and thus any itemizing benefit, keeps shrinking, often pushing the buyer back to the standard deduction.
+
+The crossover year, when buying's net worth overtakes renting's, is what you are really solving for. With high closing costs and PMI up front and a renter who only owes capital-gains tax at the very end, that crossover is frequently later than the "renting is throwing money away" instinct suggests.
+
+## What to actually do
+
+1. Check whether you would even itemize. If you would take the standard deduction, stop crediting the mortgage with tax savings.
+2. Treat property tax as only partly deductible once you hit the SALT cap, and confirm the current cap.
+3. Model PMI as temporary, ending when LTV crosses 80%.
+4. Net the renter's long-term capital-gains tax; don't compare untaxed equity to a pre-tax portfolio.
+5. Solve for the crossover year and check how sensitive it is to the mortgage rate and appreciation.
+
+The [US rent-vs-buy calculator](/us) does all of this: the itemize-vs-standard decision each year, the SALT cap, PMI by LTV, and LTCG with the optional NIIT, with every input encoded in the URL so you can share or revisit a scenario.
+
+## Sources
+
+US tax thresholds (standard deduction, the SALT cap, capital-gains brackets) are set annually and have been changed by recent legislation; confirm the current year's figures before acting.
+
+- IRS, [Publication 936, Home Mortgage Interest Deduction](https://www.irs.gov/publications/p936).
+- IRS, [Topic no. 503, Deductible taxes](https://www.irs.gov/taxtopics/tc503) (the SALT cap).
+- IRS, [Topic no. 409, Capital gains and losses](https://www.irs.gov/taxtopics/tc409).
+- IRS, [Topic no. 701, Sale of your home](https://www.irs.gov/taxtopics/tc701) (the primary-residence exclusion).
+- IRS, [Questions and Answers on the Net Investment Income Tax](https://www.irs.gov/newsroom/questions-and-answers-on-the-net-investment-income-tax).
+- CFPB, [What is private mortgage insurance?](https://www.consumerfinance.gov/ask-cfpb/what-is-private-mortgage-insurance-en-122/) (the 80%/78% LTV rules).

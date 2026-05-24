@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: "Rent vs Buy Calculator",
-    template: "%s — Rent vs Buy",
+    template: "%s | Rent vs Buy",
   },
   description: SITE_DESCRIPTION,
   openGraph: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: {
       default: "Rent vs Buy Calculator",
-      template: "%s — Rent vs Buy",
+      template: "%s | Rent vs Buy",
     },
     description: SITE_DESCRIPTION,
     locale: "en_US",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: {
       default: "Rent vs Buy Calculator",
-      template: "%s — Rent vs Buy",
+      template: "%s | Rent vs Buy",
     },
     description: SITE_DESCRIPTION,
   },
@@ -129,6 +129,12 @@ function Header() {
             <CountryNav />
           </Suspense>
           <Link
+            href="/guides"
+            className="hidden text-muted-foreground hover:underline sm:inline"
+          >
+            Guides
+          </Link>
+          <Link
             href="/box3"
             className="hidden text-muted-foreground hover:underline sm:inline"
           >
@@ -170,6 +176,7 @@ function Footer() {
           change.
         </span>
         <nav className="flex gap-4">
+          <Link href="/guides" className="hover:underline">Guides</Link>
           <Link href="/privacy" className="hover:underline">Privacy</Link>
           <Link href="/terms" className="hover:underline">Terms</Link>
           <a href="mailto:financial-instruments@proton.me" className="hover:underline">
